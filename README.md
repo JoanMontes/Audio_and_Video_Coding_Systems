@@ -1,1 +1,1 @@
-# Sistemes-de-Codificaci-d-udio-i-V-deo
+# Sistemes de Codificació d'Àudio i Vídeo
