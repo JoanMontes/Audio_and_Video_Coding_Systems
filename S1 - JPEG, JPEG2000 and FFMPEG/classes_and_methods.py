@@ -1,3 +1,5 @@
+import subprocess
+
 class RGB:
 
     def __init__(self, R, G, B): #Class Constructor
@@ -35,3 +37,10 @@ class YCbCr:
         G = 1.164*(Y-16) - 0.813*(Cr - 128) - 0.391*(Cb - 128)
         B = 1.164*(Y-16) + 2.018*(Cb - 128)
         return R, G, B
+
+
+def resize_image(input_path, output_path, width, quality):
+    #FFMPEG command creation loading some input image, scaling its width 
+    #(because the -1 tells ffmpeg to automatically adjust the height to maintain the aspect ratio)
+    # and ajusting the quality of the image.
+    subprocess.run(["ffmpeg", "-i", input_path, "-vf", f"scale={width}:-1", "-q:v", str(quality), output_path])
