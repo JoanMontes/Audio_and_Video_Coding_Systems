@@ -44,3 +44,4 @@ def resize_image(input_path, output_path, width, quality):
     #(because the -1 tells ffmpeg to automatically adjust the height to maintain the aspect ratio)
     # and ajusting the quality of the image.
     subprocess.run(["ffmpeg", "-i", input_path, "-vf", f"scale={width}:-1", "-q:v", str(quality), output_path])
+    
