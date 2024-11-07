@@ -11,21 +11,22 @@ def ex2():
     print("The (Y, Cb, Cr) selected are converted into: ", RGB1, "(R, G, B) values")
 
 
-# EXERCISE 3: 
+# EXERCISE 3: Creation of a FFMPEG command to resize image into lower quality
 def ex3():
     w = int(input("Enter the width of the resized image: "))
     q = int(input("Enter the quality of the resized image: "))
     resize_image("Input images/input.jpg", "Output images/output_ex3.jpg", w, q)
 
-# EXERCISE 5:
+# EXERCISE 5: Creation of a FFMPEG command to convert an RGB image into BW.
 def ex5():
     bw_image("Input images/input.jpg", "Output images/output_ex5.jpg")
 
-# EXERCISE 6: 
+# EXERCISE 6: Creation of a run lenght encoding
 def ex6():
     data = bytes(([1, 1, 1, 2, 2, 2, 2, 3, 4, 4, 5, 5, 5, 5, 6, 7, 7]))
     print("The encoded data is: ", run_lenght_encoding(data))
-    
+
+
 def menu():
     print("\nExercises menu:")
     print("1 - Exercise 2")

@@ -1,5 +1,6 @@
 import subprocess
 
+# EXERCISE 2: Creation of translator from 3 values in RGB into the 3 YUV values, plus the opposite operation
 class RGB:
 
     def __init__(self, R, G, B): #Class Constructor
@@ -39,6 +40,7 @@ class YCbCr:
         return R, G, B
 
 
+# EXERCISE 3: Creation of a FFMPEG command to resize image into lower quality
 def resize_image(input_path, output_path, width, quality):
     #FFMPEG command creation loading some input image, scaling its width 
     #(because the -1 tells ffmpeg to automatically adjust the height to maintain the aspect ratio)
@@ -46,26 +48,41 @@ def resize_image(input_path, output_path, width, quality):
     subprocess.run(["ffmpeg", "-i", input_path, "-vf", f"scale={width}:-1", "-q:v", str(quality), output_path])
 
 
+# EXERCISE 4: 
+
+
+
+# EXERCISE 5: Creation of a FFMPEG command to convert an RGB image into BW.
 def bw_image(input_path, output_path):
+    #This command is modifying an RGB image into BW because the addition of "hue=s=0" to the command,
+    #also, the statement says that we should made the hardest compression we can, the "-q:v" "31",
+    #applies the lowest quality, yielding maximum compression
     subprocess.run(["ffmpeg", "-i", input_path, "-vf", "hue=s=0", "-q:v", "31", output_path])
     
 
+# EXERCISE 6: Creation of a run lenght encoding
 def run_lenght_encoding(data):
+    encoded_data = [] # We create an empty array that will be the output of the function
+    first_byte = data[0] # Assign to a variable the first value of the data array
+    count = 0 # Initialize a counter
     
-    encoded_data = []
-    first_byte = data[0]
-    count = 0
-    
-    for i in data:
-        if i == first_byte:
+    for i in data: # Iterate through all the data values
+        if i == first_byte: # Following the run lenght encoding method, if two consecutive bytes are equal, we will count the number of equal consecutive bytes 
             count += 1
         
-        else:
+        else: # If the consecutive bytes are different, we add to the encoded data the byte and the number of consecutive bytes, and pas to the other byte
             encoded_data.append((first_byte, count))
             first_byte = i
             count = 1
     
 
-    encoded_data.append((first_byte, count))
+    encoded_data.append((first_byte, count)) # Adding the last byte and the number of entities existing in the array of this byte
     
     return encoded_data        
+
+
+# EXERCISE 7: 
+
+
+
+# EXERCISE 8:
