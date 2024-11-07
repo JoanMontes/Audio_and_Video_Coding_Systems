@@ -47,4 +47,25 @@ def resize_image(input_path, output_path, width, quality):
 
 
 def bw_image(input_path, output_path):
-    subprocess.run(["ffmpeg", "-i", input_path, "-vf", "hue=0", "s=0", "-q:v", "31", output_path])
+    subprocess.run(["ffmpeg", "-i", input_path, "-vf", "hue=s=0", "-q:v", "31", output_path])
+    
+
+def run_lenght_encoding(data):
+    
+    encoded_data = []
+    first_byte = data[0]
+    count = 0
+    
+    for i in data:
+        if i == first_byte:
+            count += 1
+        
+        else:
+            encoded_data.append((first_byte, count))
+            first_byte = i
+            count = 1
+    
+
+    encoded_data.append((first_byte, count))
+    
+    return encoded_data        
