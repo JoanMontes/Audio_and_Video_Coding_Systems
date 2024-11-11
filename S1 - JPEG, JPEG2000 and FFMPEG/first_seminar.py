@@ -1,4 +1,6 @@
-from classes_and_methods import RGB, YCbCr, resize_image, bw_image, run_lenght_encoding
+from classes_and_methods import RGB, YCbCr, DCT, resize_image, bw_image, run_lenght_encoding, serpentine
+import numpy as np
+from scipy.fftpack import dct, idct
 
 # EXERCISE 2: Creation of translator from 3 values in RGB into the 3 YUV values, plus the opposite operation
 def ex2():
@@ -17,16 +19,28 @@ def ex3():
     q = int(input("Enter the quality of the resized image: "))
     resize_image("Input images/input.jpg", "Output images/output_ex3.jpg", w, q)
 
+# EXERCISE 4: Creation of the serpentine method to read the pixels
+def ex4():
+    read_pixels = serpentine("Input images/input.jpg")
+    print(read_pixels[:50])
+    #print(read_pixels)
+
 # EXERCISE 5: Creation of a FFMPEG command to convert an RGB image into BW.
 def ex5():
     bw_image("Input images/input.jpg", "Output images/output_ex5.jpg")
 
-# EXERCISE 6: Creation of a run lenght encoding
+# EXERCISE 6: Creation of the run lenght encoding method
 def ex6():
     data = bytes(([1, 1, 1, 2, 2, 2, 2, 3, 4, 4, 5, 5, 5, 5, 6, 7, 7]))
     print("The encoded data is: ", run_lenght_encoding(data))
 
-
+# EXERCISE 7: 
+def ex7():
+    input_signal = np.array([[1, 2, 3, 4, 4, 5, 6],[1, 5, 7, 8, 1, 1, 9], [1, 6, 7, 8, 3, 3, 2]])
+    encoded_signal = DCT.dct_encoder(input_signal)
+    print(encoded_signal)
+    
+    
 def menu():
     print("\nExercises menu:")
     print("1 - Exercise 2")
@@ -34,6 +48,7 @@ def menu():
     print("3 - Exercise 4")
     print("4 - Exercise 5")
     print("5 - Exercise 6")
+    print("6 . Exercise 7")
     print("0 - Exit")
 
 while True:
@@ -46,14 +61,19 @@ while True:
     elif(option == '2'):
         ex3()
     
+    elif(option == '3'):
+        ex4()
+    
     elif(option == '4'):
         ex5()
     
     elif(option == '5'):
         ex6()
     
+    elif(option == '6'):
+        ex7()
+    
     elif(option == '0'):
-        print("Leaving program...")
         break
     else:
         print("Invalid option. Try again.")

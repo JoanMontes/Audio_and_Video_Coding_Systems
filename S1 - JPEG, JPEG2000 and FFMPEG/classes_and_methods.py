@@ -1,4 +1,6 @@
 import subprocess
+import cv2
+import numpy as np
 
 # EXERCISE 2: Creation of translator from 3 values in RGB into the 3 YUV values, plus the opposite operation
 class RGB:
@@ -48,8 +50,38 @@ def resize_image(input_path, output_path, width, quality):
     subprocess.run(["ffmpeg", "-i", input_path, "-vf", f"scale={width}:-1", "-q:v", str(quality), output_path])
 
 
-# EXERCISE 4: 
+# EXERCISE 4: Creation of the serpentine method to read the pixels
+def serpentine(image_path):
+    image = cv2.imread(image_path,0)
+    height, width = image.shape
+    
+    serpentine_pixels = []
 
+    serpentine_pixels.append(image[0,0])
+
+    count = 1
+
+    for count in range(width + height - 1):
+            if count % 2 == 0:
+                #Left to right diagonals
+                row = 0
+                col = width - 1
+                while row < height and col >= 0:
+                    serpentine_pixels.append(image[row, col])
+                    row += 1
+                    col -= 1
+            else:
+                #Right to left diagonals
+                col = 0
+                row = height -1
+                while row >= 0 and col < width:
+                    serpentine_pixels.append(image[row, col])
+                    row -= 1
+                    col += 1
+        
+            count +=1
+
+    return serpentine_pixels
 
 
 # EXERCISE 5: Creation of a FFMPEG command to convert an RGB image into BW.
@@ -60,7 +92,7 @@ def bw_image(input_path, output_path):
     subprocess.run(["ffmpeg", "-i", input_path, "-vf", "hue=s=0", "-q:v", "31", output_path])
     
 
-# EXERCISE 6: Creation of a run lenght encoding
+# EXERCISE 6: Creation of the run lenght encoding method
 def run_lenght_encoding(data):
     encoded_data = [] # We create an empty array that will be the output of the function
     first_byte = data[0] # Assign to a variable the first value of the data array
@@ -81,8 +113,39 @@ def run_lenght_encoding(data):
     return encoded_data        
 
 
-# EXERCISE 7: 
+# EXERCISE 7: Creation of a encoder and decoder using the DCT
+
+class DCT:
+
+    def __init__(self):
+        pass
+    
+    def alpha(p, len):
+        if p == 0:
+             return np.sqrt(1/len)
+        else:
+            return np.sqrt(2/len)
+        
+    def dct_encoder(input_signal):
+        N = len(input_signal)
+        result = np.zeros((N,N))
+    
+        for u in range(N):
+            for v in range(N):
+                sum = 0
+                for x in range(N):
+                    for y in range(N):
+                        sum += input_signal[x, y] * np.cos((np.pi/N) * (x + 1/2) * u) * np.cos((np.pi/N) * (y + 1/2) * v)
+                
+                result[u, v] = DCT.alpha(u, N) * DCT.alpha(v, N) + sum
+        
+        return result
+                
+    #def dct_decoder(encoded_signal):
 
 
 
-# EXERCISE 8:
+# EXERCISE 8: Creation of a encoder and decoder using DWT
+class DWT:
+    def __init__(self):
+        pass
