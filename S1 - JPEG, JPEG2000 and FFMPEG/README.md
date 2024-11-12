@@ -11,7 +11,7 @@ This exercise is created in order to convert between RGB and YCbCr color spaces.
 In order to create these transformations we apply the formulas according to each transformation.
 First, from RGB to YUV:
 
-<img src=(https://github.com/user-attachments/assets/cd6206b7-f625-41f8-9e92-418d059be1fe width="100" height="100" >
+<img src=(https://github.com/user-attachments/assets/cd6206b7-f625-41f8-9e92-418d059be1fe width="500" height="100" >
 And consequently, from YUV to RGB:
 ![image](https://github.com/user-attachments/assets/fc4e57ce-7049-4203-bdeb-7526af05e5a5)
 
