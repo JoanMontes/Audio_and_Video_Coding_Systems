@@ -7,3 +7,8 @@ For an easy execution and experimentation, we create a menu in order to execute 
 In this report we will create a resume of how we create the different exercise and a review of the results obtained.
 
 ### Exercise 1:
+This exercise is created in order to convert between RGB and YCbCr color spaces. For this, we create two different classes, one for convert RGB values to YUV values and the other for the inverse proces, from YUV to RGB values.
+In order to create these transformations we apply the formulas according to each transformation.
+![image](https://github.com/user-attachments/assets/cd6206b7-f625-41f8-9e92-418d059be1fe)
+![image](https://github.com/user-attachments/assets/fc4e57ce-7049-4203-bdeb-7526af05e5a5)
+
