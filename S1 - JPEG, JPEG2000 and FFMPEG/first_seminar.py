@@ -35,13 +35,15 @@ def ex6():
 
 # EXERCISE 7: 
 def ex7():
-    input_signal = np.array([[1, 2, 3, 4],[1, 5, 7, 8]])
+    input_signal = np.array([[1, 2, 3, 4],[5, 6, 7, 8]])
     encoded_signal = DCT.dct_encoder(input_signal)
-    print("Our encoded signal: ", encoded_signal)
+    print("The encoded signal is: ", encoded_signal)
+    decoded_signal = DCT.dct_decoder(encoded_signal)
+    print("The decoded signal is: ", decoded_signal)
 
 # EXERCISE 8:
 def ex8():
-    input_signal = np.array([1, 2, 3])
+    input_signal = np.array([[1, 5, 2, 8], [1, 2, 7, 3]])
     aprox_coef, detail_coef = DWT.encode_dwt(input_signal)
     print("Our approximation coefficients are: ", aprox_coef)
     print("Our detail coefficients are: ", detail_coef)
@@ -53,7 +55,7 @@ def menu():
     print("3 - Exercise 4")
     print("4 - Exercise 5")
     print("5 - Exercise 6")
-    print("6 . Exercise 7")
+    print("6 - Exercise 7")
     print("7 - Exercise 8")
     print("0 - Exit")
 

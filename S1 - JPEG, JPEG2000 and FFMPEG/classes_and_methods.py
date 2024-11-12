@@ -131,10 +131,10 @@ class DCT:
              return np.sqrt(1/len)
         else:
             return np.sqrt(2/len)
-        
+      
     def dct_encoder(input_signal):
         N = len(input_signal)
-        result = np.zeros((N,N))
+        result = np.zeros_like(input_signal)
     
         for u in range(N):
             for v in range(N):
@@ -143,8 +143,23 @@ class DCT:
                     for y in range(N):
                         sum += input_signal[x, y] * np.cos((np.pi/N) * (x + 1/2) * u) * np.cos((np.pi/N) * (y + 1/2) * v)
                 
-                result[u, v] = DCT.alpha(u, N) * DCT.alpha(v, N) + sum
+                result[u, v] = DCT.alpha(u, N) * DCT.alpha(v, N) * sum
         
+        return result
+    
+    def dct_decoder(encoded_signal):
+        N = len(encoded_signal)
+        result = np.zeros_like(encoded_signal)
+        
+        for x in range(N):
+            for y in range(N):
+                sum = 0
+                for u in range(N):
+                    for v in range(N):
+                        sum += DCT.alpha(u, N) * DCT.alpha(v, N) * encoded_signal[u, v] * np.cos((np.pi/N) * (x + 1/2) * u) * np.cos((np.pi/N) * (y + 1/2) * v)
+                        
+                result[x, y] = sum
+                
         return result
 
 
@@ -152,7 +167,7 @@ class DCT:
 class DWT:
     def __init__(self):
         pass
-
+    
     #We use the first level of the transfrom
     def encode_dwt(input_signal):
         #We declare the low-pass and high-pass filter (quadrature filters)
@@ -165,4 +180,4 @@ class DWT:
         aprox_coef = ylow[::2]
         detail_coef = yhigh[::2]
 
-        return aprox_coef, detail_coef
+        return aprox_coef, detail_coef    
