@@ -1,6 +1,5 @@
-from classes_and_methods import RGB, YCbCr, DCT, resize_image, bw_image, run_lenght_encoding, serpentine
+from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, run_lenght_encoding, serpentine
 import numpy as np
-from scipy.fftpack import dct, idct
 
 # EXERCISE 2: Creation of translator from 3 values in RGB into the 3 YUV values, plus the opposite operation
 def ex2():
@@ -36,10 +35,16 @@ def ex6():
 
 # EXERCISE 7: 
 def ex7():
-    input_signal = np.array([[1, 2, 3, 4, 4, 5, 6],[1, 5, 7, 8, 1, 1, 9], [1, 6, 7, 8, 3, 3, 2]])
+    input_signal = np.array([[1, 2, 3, 4],[1, 5, 7, 8]])
     encoded_signal = DCT.dct_encoder(input_signal)
-    print(encoded_signal)
-    
+    print("Our encoded signal: ", encoded_signal)
+
+# EXERCISE 8:
+def ex8():
+    input_signal = np.array([1, 2, 3])
+    aprox_coef, detail_coef = DWT.encode_dwt(input_signal)
+    print("Our approximation coefficients are: ", aprox_coef)
+    print("Our detail coefficients are: ", detail_coef)
     
 def menu():
     print("\nExercises menu:")
@@ -49,6 +54,7 @@ def menu():
     print("4 - Exercise 5")
     print("5 - Exercise 6")
     print("6 . Exercise 7")
+    print("7 - Exercise 8")
     print("0 - Exit")
 
 while True:
@@ -72,6 +78,9 @@ while True:
     
     elif(option == '6'):
         ex7()
+
+    elif(option == '7'):
+        ex8()
     
     elif(option == '0'):
         break

@@ -52,28 +52,35 @@ def resize_image(input_path, output_path, width, quality):
 
 # EXERCISE 4: Creation of the serpentine method to read the pixels
 def serpentine(image_path):
+    #load the image using OpenCV
     image = cv2.imread(image_path,0)
     height, width = image.shape
     
     serpentine_pixels = []
 
+    #We load the first pixel
     serpentine_pixels.append(image[0,0])
 
     count = 1
-
+    #We append the pixels in the diagonals from left to right and right to left changing the direction in each diagonal
+    #As we iterate through diagonals, we iterate until the max diagonal is reached
     for count in range(width + height - 1):
+            #Left to right diagonals
             if count % 2 == 0:
-                #Left to right diagonals
+                #We declare the starting points
                 row = 0
                 col = width - 1
+                #We iterate until the boundaries of the image are reached
                 while row < height and col >= 0:
                     serpentine_pixels.append(image[row, col])
                     row += 1
                     col -= 1
+            #Right to left diagonals
             else:
-                #Right to left diagonals
+                #We declare the starting points
                 col = 0
                 row = height -1
+                #We iterate until the boundaries of the image are reached
                 while row >= 0 and col < width:
                     serpentine_pixels.append(image[row, col])
                     row -= 1
@@ -114,7 +121,6 @@ def run_lenght_encoding(data):
 
 
 # EXERCISE 7: Creation of a encoder and decoder using the DCT
-
 class DCT:
 
     def __init__(self):
@@ -140,12 +146,23 @@ class DCT:
                 result[u, v] = DCT.alpha(u, N) * DCT.alpha(v, N) + sum
         
         return result
-                
-    #def dct_decoder(encoded_signal):
-
 
 
 # EXERCISE 8: Creation of a encoder and decoder using DWT
 class DWT:
     def __init__(self):
         pass
+
+    #We use the first level of the transfrom
+    def encode_dwt(input_signal):
+        #We declare the low-pass and high-pass filter (quadrature filters)
+        lp = [np.pi/2, np.pi/2]
+        hp = [np.pi/2, -np.pi/2]
+        #We convolve the signal with the filters
+        ylow = np.convolve(input_signal, lp)
+        yhigh = np.convolve(input_signal, hp)
+        #We downsample the outputs
+        aprox_coef = ylow[::2]
+        detail_coef = yhigh[::2]
+
+        return aprox_coef, detail_coef
