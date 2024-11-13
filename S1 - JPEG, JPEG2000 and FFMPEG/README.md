@@ -7,9 +7,9 @@ For an easy execution and experimentation, we create a menu in order to execute 
 In this report we will create a resume of how we create the different exercise and a review of the results obtained.
 
 ### Exercise 1: 
-In this exercise we are asekd to install ffmpeg. To do so we followed the following [tutorial] (https://es.wikihow.com/instalar-FFmpeg-en-Windows). Once installed, we obtain the following line: 
+In this exercise we are asekd to install ffmpeg. To do so we followed the following [tutorial](https://es.wikihow.com/instalar-FFmpeg-en-Windows). Once installed, we obtain the following line: 
 
-![alt text](image-1.png)
+![image](https://github.com/user-attachments/assets/47c56109-5f6a-4b05-b819-8f2b56ffc344)
 
 
 ### Exercise 2:
@@ -33,16 +33,20 @@ First, the -i followed by the input_path specifies the input image file, then th
 Finally, the `"-q:v", str(quality)` asks the user to set the quality level for thhe output image. The scale ranges from 2 (high quality) to 31 (lowest quality).
 
 To try the command we are going to use the next image, and the subprocess function run in order to run the FFMPEG command.
-![alt text](<Input images/input.jpg>)
+
+![image](https://github.com/user-attachments/assets/a124ffa3-5213-4057-be45-68a20a666aab)
+
 
 After the command execution, the user should provide the width and the quality of the resized image. For a width of 640 and a quality value of 30, we obtain the next resized image:
-![alt text](<Output images/output_ex3.jpg>)
+
+![image](https://github.com/user-attachments/assets/58e0b380-a7fb-4f31-8964-141ea4240430)
 
 
 ### Exercise 4: 
 In this exercise we are asekd to create a method called serpentine. To do so we followed the image given in theory: 
 
-![alt text](image-2.png)
+![image](https://github.com/user-attachments/assets/4d7fd3b8-1c99-4969-916f-5dd5efe3c210)
+
 
 By looking at the image we realised that the diagonals go from right to left and left to right once every time, that is to say, the first diagonal goes from right to lef, the second from left to right, the third from right to left... So our code creates an array and it appends the pixels read the way we mentioned before. To do so we first append the first pixel of the image, then we create two loops, one to read the diagonals from right to left and the other from left to right. To read the diagonals from left to right, we declare as the starting points the row as its mínimum value (0) and the máximum value for column (width), and then we iterate until row reaches its maximum value (height) or the column reach its minimum value (0). In the loop, we simply append the pixel in the each position in which the loop is. The loop for reading from right to left we follow the same process, but we declare the columns as 0 and the rows as its maximum value (height). Finally, we simply return the array with the serpentine pixels.
 
@@ -55,10 +59,12 @@ Again, in this exercise, we are asked to use the FFMPEG to convert an RGB image 
 First, as in the previous exercise, the -i followed by the input_path specifies the input image file, then the `"-vf", "hue=s=0"` in order to change the RGB image to BW image, because the hue and the saturation are stablished to 0. On the other hand, the `"-q:v", "31"`, as we saw in the previous exercise, this part of the command is used to modify the quality of the image, as we want to do the hardest compression, we should apply the high value that is 31.
 
 As well as the previous exercise, the input image used is the next:
-![alt text](<Input images/input.jpg>)
+
+![image](https://github.com/user-attachments/assets/f4bbf712-01ba-4a10-8a05-dd98dd9cdb73)
 
 And after executing the command using the function run of the subprocess library, we obtain the next BW image with the hardest compression,
-![alt text](<Output images/output_ex5.jpg>)
+
+![image](https://github.com/user-attachments/assets/79be12e5-1b53-41f4-a53b-459ee806b2a7)
 
 
 ### Exercise 6:
