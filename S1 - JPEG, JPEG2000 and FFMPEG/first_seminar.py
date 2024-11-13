@@ -43,7 +43,7 @@ def ex7():
 
 # EXERCISE 8:
 def ex8():
-    input_signal = np.array([[1, 5, 2, 8], [1, 2, 7, 3]])
+    input_signal = np.array([1, 5, 2, 8])
     aprox_coef, detail_coef = DWT.encode_dwt(input_signal)
     print("Our approximation coefficients are: ", aprox_coef)
     print("Our detail coefficients are: ", detail_coef)
