@@ -85,5 +85,32 @@ We are not sure if this function works correctly, but we did not know how to mak
 
 
 ## Unit Tests
-To create tests to see if our functions work correclty, we created an interactive menu that asks the user which exercise wants to execute, and each exercise has an example to see how the code works. Exercise 2 and 3 also have interaction with the user in the exercise itself. In the 2nd exercise we ask the user the RGB values that he or she wants to transfrom, and the same with the Y Cb Cr values. And in the 3rd exercise, we ask the user to enter the width of the resized image and the quality of the resized image. 
+To ensure that each individual method and classes of the code work correctly we use Artificial Inteligence (CHATGPT) to create different Unit Tests. These tests are crucial for validating the behaviour of our code, we use controlled inputs and known expected outputs in order to validate the code.
+
+For the first exercise, a class called `TestColorConversion` has been created to verify the accuracy of color conversion. Specifically, we obtained two tests, one for the RGB to YCbCr and the other for the YCbCr to RGB. In the first test the AI simulates an user input for RGB values and compares the output Y, Cb, and Cr components agains expected values calculated using the RGB to YCbCr conversion formula.
+
+The second text makes the same simulation but comparing the resulting RGB values to the expected values derived from the YCbCr to RGB.
+
+For the second exercise, a class called `TestResizeImage` has been created to verify that the `resize_image` function correctly calls the ffmpeg command. 
+
+For the third exercise, a class called `TestSerpentineFunction` has been created to verify the correct functionality of the `serpentine` function. The AI create a 3x3 matrix used as input for the function. The test defines an expected output for a 3x3 image processed in serpentine order, which involves traversing the image in a zigzag pattern across diagonals. Then, the test asserts that the actual output from the `serpentine` function matches the expected result, ensuring that the gunction processes the image correctly.
+
+The purpose of the unit test `TestBWImageFunction` is to verify that the `bw_image`function correctly calls the ffmpeg command to convert a color image to a black and white image. 
+
+For the next exercise, the unit test `TestRunLengthEncoding` is used to verify the correct functionality of the `run_length_encoding` function, which encodes a list of values by compressing consecutive identival values into a tuple.
+In this unit test the AI creates four different tests. The `test_basic_encoding` creates a general case with mixed values in the input list, and checks if the function correctly encodes the input into this expected format. The `test_single_values` test when the input list consists of a single repeating calue, and checks if the function handles sequences with only one unique value correctly.
+The `test_alternating_values` tests a sequence of alternating values, and check if the function handles alternating values correctly. And finally `test_large_sequence` create a large sequence of identical values (a list of 100 occurrences of the value 4), this test ensures that the function can handle larger input sequences and produce the correct encoding.
+
+The purpose of the unit test `TestDCT` is to verify the correct functionality of the DCT encoder and decoder in the `DCT` module.
+In this unit test the AI creates three different tests. The `test_dct_inverse`checks the correctness of the DCT encoding and decoding process by ensuring that the original input signal is approximately recovered after encoding and decoding, generates a random 4x4 matrix as the input signal and applies the `dct_encoder` to encode the signal and the `dct_decoder` to decode it. And finally the test asserts that the decoded signal is very close to the original signal.
+The `test_dct_zero_input` checks how the DCT encoder and decoder handle an input signal that is all zeros.
+And the `test_output_shape` verifies that the shapes of the encoded and decoded signals match the shape of the input signal, ensuring that the DCT operations preserve the dimensionality of the input signal.
+
+Finally, the purpose of the unit test `TestDWT` is to verify the correct functionality of the DWT encoder. In this unit test the AI creates four different tests. The `test_dwt_known_signal` validates correct calculations for a simple, known input, ensuring the transform logic is accurate. The `test_dwt_zero_input` confirms that the function can handle an all-zero input without introducing artifacts. The `test_dwt_single_value` tests boundary behavious for minimal input, ensuring robustness with edge cases. Finally, the `test_output_length` ensures the function correctly downscales the output length, confirming the accuracy of the downsampling process.
+
+After the execution of the tests, we can observe that all the results obtained with the checks are correct.
+
+
+## Menu Integration
+We created an interactive menu that asks the user which exercise wants to execute, and each exercise has an example to see how the code works. Exercise 2 and 3 also have interaction with the user in the exercise itself. In the 2nd exercise we ask the user the RGB values that he or she wants to transfrom, and the same with the Y Cb Cr values. And in the 3rd exercise, we ask the user to enter the width of the resized image and the quality of the resized image. 
 By doing these unit test we can see that most of our code works correctly. However, we are not sure if the exercise 4 works correctly as it prints an extremly large quantity of pixels and we are not able to see if these are printed the serpentine way. We compared by printing 50 pixels of the image printed normal and 50 printed in the serpentine way and we see that these are different, but we can not affirm that it Works correctly. Also, in exercise 7 we see some losses in the decoder, as the input given to the encoder, is not equal to the output of the encoder. Finally, as we mentioned before, we are not sure if the code in exercise 8 is correct.

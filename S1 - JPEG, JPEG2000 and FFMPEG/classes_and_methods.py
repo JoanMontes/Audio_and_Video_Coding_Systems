@@ -58,18 +58,14 @@ def serpentine(image_path):
     
     serpentine_pixels = []
 
-    #We load the first pixel
-    serpentine_pixels.append(image[0,0])
-
-    count = 1
     #We append the pixels in the diagonals from left to right and right to left changing the direction in each diagonal
     #As we iterate through diagonals, we iterate until the max diagonal is reached
-    for count in range(width + height - 1):
+    for i in range(width + height - 1):
             #Left to right diagonals
-            if count % 2 == 0:
+            if i % 2 == 0:
                 #We declare the starting points
-                row = 0
-                col = width - 1
+                col = min(i, width - 1)
+                row = i - col
                 #We iterate until the boundaries of the image are reached
                 while row < height and col >= 0:
                     serpentine_pixels.append(image[row, col])
@@ -78,15 +74,14 @@ def serpentine(image_path):
             #Right to left diagonals
             else:
                 #We declare the starting points
-                col = 0
-                row = height -1
+                row = min(i, height - 1)
+                col = i - row
                 #We iterate until the boundaries of the image are reached
                 while row >= 0 and col < width:
                     serpentine_pixels.append(image[row, col])
                     row -= 1
                     col += 1
         
-            count +=1
 
     return serpentine_pixels
 
