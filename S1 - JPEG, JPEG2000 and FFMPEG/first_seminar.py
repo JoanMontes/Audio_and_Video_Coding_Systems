@@ -50,38 +50,38 @@ def ex8():
     
 def menu():
     print("\nExercises menu:")
-    print("1 - Exercise 2")
-    print("2 - Exercise 3")
-    print("3 - Exercise 4")
-    print("4 - Exercise 5")
-    print("5 - Exercise 6")
-    print("6 - Exercise 7")
-    print("7 - Exercise 8")
+    print("2 - Exercise 2")
+    print("3 - Exercise 3")
+    print("4 - Exercise 4")
+    print("5 - Exercise 5")
+    print("6 - Exercise 6")
+    print("7 - Exercise 7")
+    print("8 - Exercise 8")
     print("0 - Exit")
 
 while True:
     menu()
     option = input("Select an option: ")
     
-    if(option == '1'):
+    if(option == '2'):
         ex2()
         
-    elif(option == '2'):
+    elif(option == '3'):
         ex3()
     
-    elif(option == '3'):
+    elif(option == '4'):
         ex4()
     
-    elif(option == '4'):
+    elif(option == '5'):
         ex5()
     
-    elif(option == '5'):
+    elif(option == '6'):
         ex6()
     
-    elif(option == '6'):
+    elif(option == '7'):
         ex7()
 
-    elif(option == '7'):
+    elif(option == '8'):
         ex8()
     
     elif(option == '0'):
