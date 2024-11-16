@@ -1,11 +1,6 @@
 # Use a lightweight Python base image
 FROM python:3.11-slim
 
-# Install system dependencies, including FFMPEG
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    build-essential \
-    ffmpeg
-
 # Set the working directory in the container
 WORKDIR /app
 
@@ -15,6 +10,7 @@ COPY requirements.txt .
 # Install Python dependencies
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install ffmpeg
 
 # Copy application code
 COPY . .
