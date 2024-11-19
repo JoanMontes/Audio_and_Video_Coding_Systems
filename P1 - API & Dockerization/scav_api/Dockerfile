@@ -7,10 +7,9 @@ WORKDIR /app
 # Copy the requirements file
 COPY requirements.txt .
 
-# We install the requirements and ffmpeg
+# We install the requirements
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install ffmpeg
 
 # Copy everything in the working directory
 COPY . .

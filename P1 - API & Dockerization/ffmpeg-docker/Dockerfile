@@ -1,8 +1,5 @@
-# Use a lightweight Linux base image
+# We select the base image of the container
 FROM python:3.11
 
-# Update package list and install FFmpeg
+#We install ffmpeg
 RUN pip install ffmpeg
-
-# Set the default command to FFmpeg
-CMD ["ffmpeg", "-version"]
