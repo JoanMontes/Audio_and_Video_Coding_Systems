@@ -7,4 +7,4 @@ To create the project we are using [Docker Desktop](https://www.docker.com/produ
 In this file you will be able to install and execute all the requirements to run our API.
 
 The project is structured in two folders, one for the FastAPI 
-## 
+
