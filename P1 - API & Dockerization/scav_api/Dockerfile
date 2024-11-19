@@ -1,25 +1,22 @@
-# Use a lightweight Python base image
-FROM python:3.11-slim
+# We select the base image of the container
+FROM python:3.11
 
-# Set the working directory in the container
+# We select the working directory for the container
 WORKDIR /app
 
-# Copy application requirements
+# Copy the requirements file
 COPY requirements.txt .
 
-# Install Python dependencies
+# We install the requirements and ffmpeg
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+RUN pip install ffmpeg
 
-# Copy application code
+# Copy everything in the working directory
 COPY . .
 
-# Expose port for FastAPI
+# Expose the port 
 EXPOSE 8000
 
-# Command to run the FastAPI application
+# Run the app
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
