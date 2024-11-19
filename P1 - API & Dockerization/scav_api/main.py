@@ -14,7 +14,7 @@ def save_uploaded_file(file: UploadFile, destination: str):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the Image and Signal Processing API!"}
+    return {"message": "Welcome to the SCAV API!"}
 
 # Exercise 2: RGB to YCbCr and vice versa
 @app.post("/exercise2/rgb-to-ycbcr/")
@@ -45,17 +45,6 @@ def resize(input_file: UploadFile = File(...), width: int = 100, quality: int = 
     finally:
         os.remove(input_path)
 
-# Exercise 4: Serpentine pixel reading
-@app.post("/exercise4/serpentine/")
-def serpentine_read(input_file: UploadFile = File(...)):
-    input_path = f"temp/{input_file.filename}"
-    save_uploaded_file(input_file, input_path)
-    try:
-        pixels = serpentine(input_path)
-        return {"serpentine_pixels": pixels[:50]}
-    finally:
-        os.remove(input_path)
-
 # Exercise 5: Convert image to black and white
 @app.post("/exercise5/bw/")
 def bw_convert(input_file: UploadFile = File(...)):
@@ -74,21 +63,3 @@ def run_length(data: str):
     bytes_data = bytes([int(i) for i in data.split(",")])
     encoded = run_lenght_encoding(bytes_data)
     return {"encoded_data": encoded}
-
-# Exercise 7: DCT encoder and decoder
-@app.post("/exercise7/dct/")
-def dct_transform(signal: list):
-    signal_np = np.array(signal).reshape(4, 4)  # Reshape to 4x4 for simplicity
-    encoded = DCT.dct_encoder(signal_np)
-    decoded = DCT.dct_decoder(encoded)
-    return {
-        "encoded_signal": encoded.tolist(),
-        "decoded_signal": decoded.tolist()
-    }
-
-# Exercise 8: DWT encoder
-@app.post("/exercise8/dwt/")
-def dwt_transform(signal: list):
-    signal_np = np.array(signal)
-    approx, detail = DWT.encode_dwt(signal_np)
-    return {"approximation_coefficients": approx.tolist(), "detail_coefficients": detail.tolist()}
