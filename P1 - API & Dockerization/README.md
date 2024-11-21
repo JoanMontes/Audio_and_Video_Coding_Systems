@@ -1,33 +1,36 @@
-# P1 - API & DOCKERTIZATION REPORT
+# P1 - API & DOCKERIZATION REPORT
 ## Introduction
-This project demonstrates how to build and deploy an API using Fast API that interacts with FFMPEG for realizing some of the signal processing tasks of [S1 - JPEG, JPEG2000 and FFMPEG REPORT](https://github.com/JoanMontes/Audio_and_Video_Coding_Systems/tree/main/S1%20-%20JPEG%2C%20JPEG2000%20and%20FFMPEG). The solution uses Docker and Docker Compose to streamline deployment and ensure modularity.
+This project demonstrates how to build and deploy an API using FastAPI that interacts with FFMPEG to perform some signal processing tasks outlined in [S1 - JPEG, JPEG2000 and FFMPEG REPORT](https://github.com/JoanMontes/Audio_and_Video_Coding_Systems/tree/main/S1%20-%20JPEG%2C%20JPEG2000%20and%20FFMPEG). The solution leverages Docker and Docker Compose to streamline deployment and ensure modularity.
 
-To create the project we are using [Docker Desktop](https://www.docker.com/products/docker-desktop/). We should install this program in order to create, from local, the different docker images and containers.
+To set up the project, we are using [Docker Desktop](https://www.docker.com/products/docker-desktop/). This program must be installed to create the required Docker images and containers locally.
 
-In this file you will be able to install and execute all the requirements to run our API.
+In this file, you will find all the instructions to install and execute the requirements needed to run our API.
 
-The project is structured in two folders, one for the FastAPI app (Docker and API) and the other for the FFMPEG Docker. In these both folders we have two Dockerfiles, in order to build the Docker images and containers. In the folder of our API we can also find all the files from the `S1 - JPEG, JPEG2000 and FFMPEG REPORT` and the `requirements.txt` file that contains all the dependences needed to create the Docker image.
-Both Dockers will be connected because of the use of a docker compose file.
+The project is structured into two folders: one for the FastAPI app (API and Docker configuration) and the other for the FFMPEG Docker setup. Each folder contains a `Dockerfile` to build its respective Docker image and container. The API folder also includes all the files from the `S1 - JPEG, JPEG2000, and FFMPEG REPORT` along with a `requirements.txt` file containing the dependencies needed to create the Docker image. Both containers are connected using a `docker-compose.yml` file.
 
 
 ## Files implementation
 
 ### Dockerfile for API
-In order to put the API inside a Docker, we have to create a Dockerfile to build the container. To create the Dockerfile we first select the base image of the container, and we used the Python:3.11 image, which includes Python and all its essential tools. 
+To containerize the API, we create a `Dockerfile`. The first step is selecting the base image; we use the `python:3.11` image, which includes Python and essential tools.
 
-The next step is to set the working directory. Which is where all the following comands will be executed. The next step is to copy the requirements text we created with all the required libraries inside the container. Then we install the required libraries. First we upgrade pip to ensure compatibility with the libraries. Then we install the libraries in the requirements.txt. Then we copy all the contents we have into the app directory we set previously. Then we expose the port 8000 so that the container listens to connections to this port. Then we use the last command to start the fastAPI application with the main file in the port 8000 when the container starts
+Next, we set the working directory, which specifies where subsequent commands will execute. We then copy the `requirements.txt` file, which lists all the required libraries, into the container. Before installing the libraries, we upgrade `pip` for compatibility. Once the dependencies are installed, we copy all contents into the app directory.
 
-### API code main.py
+We expose port 8000 so the container listens for connections on this port. Finally, we use a command to start the FastAPI application `(main.py)` on port 8000 when the container starts.
 
+### API code (main.py)
+This file contains the core application that runs when we start the Docker containers. The first step is importing Python files and methods created in the previous seminar. Afterward, we create the FastAPI app instance with `FastAPI()`.
+
+We define endpoints, such as "GET" requests for the root URL and "POST" requests for various tasks. These "POST" endpoints are adapted from previous exercises using an AI tool like ChatGPT, ensuring they integrate seamlessly with FastAPI. The generated Swagger UI at http://localhost:8000/docs provides a visual interface to interact with these endpoints.
 
 ### Dockerfile for FFMPEG
-The Dockerfile for the ffmpeg is much simpler, as we only have two steps. The first step is to install the base image of the container, and just as we did in the Dockerfile for the API, we used Python:3.11. Then, we simply install ffmpeg.
+The Dockerfile for the `FFMPEG` is much simpler, as we only have two steps. The first step is to install the base image of the container, and just as we did in the Dockerfile for the API, we used `python:3.11`. Then, we simply install `FFMPEG`.
 
 ### Docker Compose
 To be able to run a multi-container application we define the following Docker-compose file. 
 The first step is to select the version, we have chosen the versión "3.8".
 
-Then we define the two services that make up the application. First we define the scav_api service, which defines the configuation to build the Docker image. To do this, we define the folder that we will use as context, we select the Dockerfile that is inside the folder. We also define the container name and we map the ports to allow access to the API. Then we mount the uploads directory of the computer inside the container. 
+Then we define the two services that make up the application. First we define the scav_api service, which defines the configuation to build the Docker image. To do this, we define the folder that we will use as context, we select the Dockerfile that is inside the folder. We also define the container name and we map the ports to allow access to the API. Then we mount the uploads directory of the computer inside the container.
 
 Finally we specify that this service depends on the ffmpeg_service container, ensuring that this is executed before that scav_api container. Finally we declare the ffmpeg service, following the same metodology we followed with the previous service.
 
@@ -48,6 +51,7 @@ Considering the Dockerfile of this docker, we can build the docker image using t
 `ffmpeg-docker                        latest      c9f30e80d62a   4 hours ago   467MB`
 
 And in the same way, run the container using the previous command but with the new docker image created, `docker run -d --name ffmpeg_service -p 8000:8000 ffmpeg-docker`.
+
 
 
 ## How to execute the API?
