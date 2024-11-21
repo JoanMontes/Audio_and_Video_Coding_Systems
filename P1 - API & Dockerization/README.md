@@ -60,7 +60,9 @@ After running the containers, we should create the `docker-compose.yml` in order
 
 After creating the `main.py` we can access the API using the Swagger UI Documentation, entering the http://localhost:8000/docs when the API is running. In order to run the API we need to execute the command `python -m uvicorn main:app --reload` inside the folder where the `main.py` is ubicated.
 
-Entering the previous URL we can access to all the endpoints developed. In our case, we want to focus in the 
+Entering the previous URL we can access to all the endpoints developed, in our case, the next ones will be holded:
+![image](https://github.com/user-attachments/assets/e18b7d7f-4a4c-4e5e-809a-7df245c7765f)
+
 
 ## How to execute the API?
 To be able to run the code when downloading the code from GitHub the following steps must be followed: 
