@@ -27,12 +27,14 @@ We define endpoints, such as "GET" requests for the root URL and "POST" requests
 The Dockerfile for the `FFMPEG` is much simpler, as we only have two steps. The first step is to install the base image of the container, and just as we did in the Dockerfile for the API, we used `python:3.11`. Then, we simply install `FFMPEG`.
 
 ### Docker Compose
-To be able to run a multi-container application we define the following Docker-compose file. 
+To be able to run a multi-container application we define a `docker-compose.yml` file. 
 The first step is to select the version, we have chosen the versión "3.8".
 
-Then we define the two services that make up the application. First we define the scav_api service, which defines the configuation to build the Docker image. To do this, we define the folder that we will use as context, we select the Dockerfile that is inside the folder. We also define the container name and we map the ports to allow access to the API. Then we mount the uploads directory of the computer inside the container.
+Then we define the two services that make up the application:
 
-Finally we specify that this service depends on the ffmpeg_service container, ensuring that this is executed before that scav_api container. Finally we declare the ffmpeg service, following the same metodology we followed with the previous service.
+- First we define the scav_api service, which defines the configuation to build the Docker image. To do this, we define the folder that we will use as context, we select the Dockerfile that is inside the folder. We also define the container name and we map the ports to allow access to the API. Then we mount the uploads directory of the computer inside the container. Finally we specify that this service depends on the ffmpeg_service container, ensuring that this is executed before that scav_api container.
+
+- Finally we declare the ffmpeg service, following the same metodology we followed with the previous service.
 
 ## Creation process
 In order to build the Dockerfile of the API, first, we need to create the `requirements.txt`, that will contain the necessary packages that should be installed. In our case, we need FastAPI, Uvicorn, numpy and opencv-python.
@@ -52,7 +54,13 @@ Considering the Dockerfile of this docker, we can build the docker image using t
 
 And in the same way, run the container using the previous command but with the new docker image created, `docker run -d --name ffmpeg_service -p 8000:8000 ffmpeg-docker`.
 
+After running the containers, we should create the `docker-compose.yml` in order to combine both dockers, and execute the `docker-compose up --build` command to run the docker compose and create the container with both containers as we can see in the following image.
 
+
+
+After creating the `main.py` we can access the API using the Swagger UI Documentation, entering the http://localhost:8000/docs when the API is running. In order to run the API we need to execute the command `python -m uvicorn main:app --reload` inside the folder where the `main.py` is ubicated.
+
+Entering the previous URL we can access to all the endpoints developed. In our case, we want to focus in the 
 
 ## How to execute the API?
 To be able to run the code when downloading the code from GitHub the following steps must be followed: 
