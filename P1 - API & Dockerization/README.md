@@ -56,7 +56,7 @@ And in the same way, run the container using the previous command but with the n
 
 After running the containers, we should create the `docker-compose.yml` in order to combine both dockers, and execute the `docker-compose up --build` command to run the docker compose and create the container with both containers as we can see in the following image.
 
-
+![image](https://github.com/user-attachments/assets/af78beb5-1eca-4dc3-837a-6bf6d7d9c3cb)
 
 After creating the `main.py` we can access the API using the Swagger UI Documentation, entering the http://localhost:8000/docs when the API is running. In order to run the API we need to execute the command `python -m uvicorn main:app --reload` inside the folder where the `main.py` is ubicated.
 
