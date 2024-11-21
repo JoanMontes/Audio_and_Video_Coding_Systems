@@ -65,13 +65,14 @@ Entering the previous URL we can access to all the endpoints developed, in our c
 
 
 ## How to execute the API?
-To be able to run the code when downloading the code from GitHub the following steps must be followed: 
+To execute the API after downloading it from GitHub, follow these steps:
 
-The first step is, obviously, downloading all the resources in the GitHub repository. Then, we must open a terminal and change the directory to the folder with the name of the practice (P1 – API &
-Dockerization), and once we are inside the folder, execute the following command: `docker-compose up --build`.
+1. The first step is, obviously, downloading all the resources in the GitHub repository. 
+
+2. Then, we must open a terminal and change the directory to the folder with the name of the practice `(P1 – API & Dockerization)`, and once we are inside the folder, execute the following command: `docker-compose up --build`.
 To execute this command, we must ensure that the following libraries are installed: uvicorn, fastapi, opencv and python-multipart. If these are not installed, an error will come up and we simply have to install the library `(pip install <library>)` and execute the previous command again. 
 
-Once the project is created, we change the directory to `scav_api/`, where the `main.py` is located, and we execute the following command:
+3. Once the project is created, we change the directory to `scav_api/`, where the `main.py` is located, and we execute the following command:
 `python -m uvicorn main:app --reload`. This will launch the application. 
 
 Then to see the API, we go to the browser and we use the Swagger UI Documentation at http://localhost:8000/docs.
