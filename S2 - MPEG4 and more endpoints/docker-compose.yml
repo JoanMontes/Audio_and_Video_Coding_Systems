@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  scav_api:
+    build:
+      context: ./scav_api
+      dockerfile: Dockerfile
+    container_name: scav_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./scav_api/uploads:/app/uploads
+    depends_on:
+      - ffmpeg_service
+
+  ffmpeg_service:
+    build:
+      context: ./ffmpeg-docker
+      dockerfile: Dockerfile
+    container_name: ffmpeg_service
+    volumes:
+      - ./scav_api/uploads:/data
