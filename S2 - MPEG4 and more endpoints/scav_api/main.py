@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
-from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, run_lenght_encoding, serpentine, video_resolution, chroma_subsampling, extract_rellevant_data
+from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, run_lenght_encoding, serpentine, video_resolution, chroma_subsampling, extract_rellevant_data, extract_bbb, get_audio_tracks, get_macroblocks_motionvectors, get_yuv_histogram
 import numpy as np
 import shutil
 import os
+import subprocess
 
 app = FastAPI()
 
@@ -74,7 +75,7 @@ def resolution(input_file: UploadFile = File(...), resolution: int = 100):
     save_uploaded_file(input_file, input_path)
     try:
         video_resolution(input_path, output_path, resolution)
-        return {"message": "Image rescaled successfully", "output_path": output_path}
+        
     finally:
         os.remove(input_path)
 
@@ -87,24 +88,68 @@ def chroma_sub(input_file: UploadFile = File(...), format: str = "yuv444p"):
     save_uploaded_file(input_file, input_path)
     try:
         chroma_subsampling(input_path, output_path, format)
-        return {"message": "Video subsampled successfully", "output_path": output_path}
+        
     finally:
         os.remove(input_path)
-        
+
+# Exercise 3:
 @app.post("/Extract video information/")
 def rellevant_data(input_file: UploadFile = File(...)):
     input_path = f"temp/{input_file.filename}"
     save_uploaded_file(input_file, input_path)
-
     try:
-        # Extract metadata
         metadata = extract_rellevant_data(input_path)
-
-        # Save metadata to a .txt file
         metadata_file_path = f"temp/{os.path.splitext(input_file.filename)[0]}_metadata.txt"
         with open(metadata_file_path, "w") as metadata_file:
             metadata_file.write(metadata)
-        return {"message": "Metadata extracted successfully", "metadata_file": metadata_file_path}
     
+    finally:
+        os.remove(input_path)
+
+# Exercise 4:
+@app.post("/BBB Container/")
+def bbb_container(input_file: UploadFile = File(...)):
+    input_path = f"temp/{input_file.filename}"
+    output_path = f"temp/container_output_{input_file.filename}"
+    save_uploaded_file(input_file, input_path)
+    try:
+        extract_bbb(input_path, output_path)
+        
+    finally:
+        os.remove(input_path)       
+
+# Exercise 5:
+@app.post("/Extract audio tracks/")
+def audio_tracks(input_file: UploadFile = File(...)):
+    input_path = f"temp/{input_file.filename}"
+    output_path = f"temp/{input_file.filename}_audio_tracks.txt"
+    save_uploaded_file(input_file, input_path)
+    try:
+        data = get_audio_tracks(input_path, output_path)
+        
+    finally:
+        os.remove(input_path)
+
+# Exercise 6:
+@app.post("/Generate video with macroblocks and motion vectors/")
+def macroblocks_motionvectors_video(input_file: UploadFile = File(...)):
+    input_path = f"temp/{input_file.filename}"
+    output_path = f"temp/macroblocks_motionvectors_video.mp4"
+    save_uploaded_file(input_file, input_path)
+    try:
+        get_macroblocks_motionvectors(input_path, output_path)
+        
+    finally:
+        os.remove(input_path)
+        
+# Exercise 7:
+@app.post("/Generate video with YUV histogram overlayed/")
+def yuv_histogram_video(input_file: UploadFile = File(...)):
+    input_path = f"temp/{input_file.filename}"
+    output_path = f"temp/yuv_histogram_video.mp4"
+    save_uploaded_file(input_file, input_path)
+    try:
+        get_yuv_histogram(input_path, output_path)
+        
     finally:
         os.remove(input_path)

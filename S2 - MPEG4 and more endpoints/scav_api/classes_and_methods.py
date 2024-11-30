@@ -1,6 +1,8 @@
 import subprocess
 import cv2
 import numpy as np
+import os
+import json
 
 # EXERCISE 2: Creation of translator from 3 values in RGB into the 3 YUV values, plus the opposite operation
 class RGB:
@@ -180,19 +182,74 @@ class DWT:
 
 ### S2 – MPEG4 and more endpoints
 
-# Exercise 1:
+# EXERCISE 1:
 def video_resolution(input_path, output_path, resolution):
     ffmpeg_command = ["ffmpeg","-i", input_path, "-vf", f"scale={resolution}:-1", "-c:a", "copy", output_path]
     subprocess.run(ffmpeg_command)
 
-# Exercise 2:
+# EXERCISE 2:
 def chroma_subsampling(input_path, output_path, format):
     ffmpeg_command = ["ffmpeg", "-i", input_path, "-pix_fmt",format, output_path]
     subprocess.run(ffmpeg_command)
 
-# Exercise 3:
+# EXERCISE 3:
 def extract_rellevant_data(input_path):
     ffmpeg_command = ["ffmpeg", "-i", input_path]
     result = subprocess.run(ffmpeg_command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
     return result.stderr
 
+# EXERCISE 4:
+def extract_bbb(input_path, output_path):
+    video_cut_path = "temp/BBBContainer/bbb_cut.mp4"
+    aac_audio_path = "temp/BBBContainer/bbb_audio_aac.m4a"
+    mp3_audio_path = "temp/BBBContainer/bbb_audio_mp3.mp3"
+    ac3_audio_path = "temp/BBBContainer/bbb_audio_ac3.ac3"
+    
+    video_cut = ["ffmpeg", "-i", input_path, "-t", "20", "-c:v", "copy", "-c:a", "copy", video_cut_path]
+    subprocess.run(video_cut)
+
+    aac_mono_path =  ["ffmpeg", "-i", video_cut_path, "-vn", "-ac", "1", "-c:a", "aac", aac_audio_path]
+    subprocess.run(aac_mono_path)
+
+    mp3_path = ["ffmpeg", "-i", video_cut_path, "-vn", "-ac", "2", "-b:a", "128k", "-c:a", "mp3", mp3_audio_path]
+    subprocess.run(mp3_path)
+
+    ac3_path = ["ffmpeg", "-i", video_cut_path, "-vn", "-c:a", "ac3", ac3_audio_path]
+    subprocess.run(ac3_path)
+
+    ffmpeg_command = ["ffmpeg", "-i", video_cut_path,"-i", aac_audio_path, "-i", mp3_audio_path, "-i", ac3_audio_path,"-map", "0:v", "-map", "1:a", "-map", "2:a", "-map", "3:a","-c:v", "copy", "-c:a", "copy", output_path]
+    subprocess.run(ffmpeg_command)
+
+# EXERCISE 5:
+def get_audio_tracks(input_path, output_path):
+    ffmpeg_command = ["ffmpeg", "-i", input_path]
+    result = subprocess.run(ffmpeg_command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    
+    output_lines = result.stderr.splitlines()
+    audio_tracks = []
+
+    for line in output_lines:
+        if "Audio:" in line:
+            parts = line.split(",")
+            codec = parts[0].split("Audio:")[1].strip()
+
+            audio_tracks.append({
+                "codec": codec,
+            })
+    
+    result_data = {"total_audio_tracks": len(audio_tracks), "audio_tracks": audio_tracks}
+    
+    with open(output_path, "w") as f:
+        f.write(json.dumps(result_data, indent=4))
+    
+    return result_data
+
+# EXERCISE 6:
+def get_macroblocks_motionvectors(input_path, output_path):
+    ffmpeg_command = ["ffmpeg","-flags2", "+export_mvs","-i", input_path,"-vf", "codecview=mv=pf+bf+bb",output_path]
+    subprocess.run(ffmpeg_command)
+    
+# EXERCISE 7:
+def get_yuv_histogram(input_path, output_path):
+    ffmpeg_command = ["ffmpeg","-i", input_path,"-vf", "split=2[a][b],[b]histogram,format=yuva420p[hh],[a][hh]overlay",output_path]
+    subprocess.run(ffmpeg_command)
