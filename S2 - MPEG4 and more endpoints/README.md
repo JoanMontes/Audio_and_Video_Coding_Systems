@@ -34,5 +34,22 @@ As we have seen in the previous task, the `-i` followed by the input_path specif
 - yuv444p (4:4:4): It is the high-quality format and no chroma subsampling is applied, that results in a full color resolution video. We found this type of format in professional editing, color grading and archiving.
 
 As the BBB video is downloaded from YouTube, the chroma subsampling format in which we download the video is the lower quality one (4:2:0). Therefore, we can not create a video with higher quality format. Moreover, to check if the command works correctly we implemented the endpoint of our FastAPI. In this part, the user will be asked to charge an input file and write a chroma subsampling format (yuv420p, yuv422p, yuv444p). After executing, the endpoint will execute the FFMPEG command and the output file will be created in the output folder.
+
 As we said before, as the quality format is the lowest, we are not able to create a file with higher quality format, but as the endpoint is executed correctly, we can assume that the FFMPEG command is performing well.
 
+
+### Exercise 3
+In this exercise we are asked to read the information and the rellevant data from the video. In order to extract the rellevant data from a video, we can use FFMPEG but adding some modifications when running the command. As we only want to read the information of the video the FFMPEG command will be the next:
+
+ffmpeg -i input_path
+
+But, when we use the subprocess library in order to run the command, we will use the subprocess.PIPE, that allows us to access the stream in Python, instead of print the output directly to the console, therefore, we return the `stderr` output, where we will find all the video data. We prefer doing that because we found a good idea to, instead of printing the metadata information of the video, we will create a `.txt` file as an output where all the rellevant information of the video will be stored.
+
+That is why, when creating the endpoint, use the next lines of code:
+
+with open(metadata_file_path, "w") as metadata_file:
+            metadata_file.write(metadata)
+
+Because, we will write the `medatada` information in the `metadata_file_path` (.txt file created in the output folder).
+
+Once the user execute the endpoint, in the output folder we will obtain the .txt file with the rellevant data. Here we can see a screenshot of its content:
