@@ -14,7 +14,7 @@ In this exercise we are asked to modify the resolution of the BBB video using an
 
 ffmpeg -i input_path -vf f"scale={resolution}:-1 -c:a copy output_path
 
-As in the image case, the -i followed by the input_path specifies the input video file, then the -vf, f"scale={resolution}:-1" resizes the video to a resolution of a width introduced by the user and the -1 tells ffmpeg to automatically adjust the height to maintain the aspect ratio.
+As in the image case, the `-i` followed by the input_path specifies the input video file, then the `-vf, f"scale={resolution}:-1"` resizes the video to a resolution of a width introduced by the user and the -1 tells ffmpeg to automatically adjust the height to maintain the aspect ratio.
 Then we use the library `subprocess` in order to run the FFMPEG command.
 
 After creating the changing resolution function, we implemented the endpoint of our FastAPI. In this part the user will be asked to charge an input file from it's computer, then, an output path will be created in the GitHub folder (where the user have the repository) and after executing, the endpoint will call the previous FFMPEG function and will run the command, creating, in the output directory, the video with modified resolution. Here we can see a frame of the modified video:
