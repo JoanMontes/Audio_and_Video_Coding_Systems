@@ -69,6 +69,26 @@ In the audio part we can detect the audio channels, in this case, the `aac` is t
 
 
 ### Exercise 4
+In the next task we are asked to cut the BBB video into 20 seconds, and export this 20 seconds creating three audio channels, as AAC mono track, MP3 stereo with lower bitrate, and in AC3 codec. Before that, we will package everything in a `.mp4`. For this exercise we are going to use some FFMPEG commands, one for each requirement and finally one for package all in a `.mp4` file.
+First, and in order to execute the different requirements, we need to create temporary files of each part. After that, we will cut the video into a 20 seconds video, using the following command:
+
+´´´
+ffmpeg -i input_path -t 20 -c:v copy -c:a copy video_cut_path
+```
+
+In this command, the `-t 20` is in charge of cutting the video in a 20 seconds video. After that, we will use this 20 seconds video to create all the different commands and the output video file.
+
+The following three FFMPEG commands will be the ones that export the audio tracks:
+
+```
+ffmpeg -i video_cut_path -vn -ac 1 -c:a aac aac_audio_path
+
+ffmpeg -i video_cut_path -vn -ac 2 -b:a 128k -c:a mp3 mp3_audio_path
+
+ffmpeg -i video_cut_path -vn -c:a ac3 ac3_audio_path
+```
+
+
 
 ### Exercise 5
 
