@@ -12,7 +12,9 @@ In this report we will explain how we create the different tasks, using FFMPEG c
 ### Exercise 1
 In this exercise we are asked to modify the resolution of the BBB video using an FFMPEG command. The FFMPEG command created is the following:
 
+```
 ffmpeg -i input_path -vf f"scale={resolution}:-1 -c:a copy output_path
+```
 
 As in the image case, the `-i` followed by the input_path specifies the input video file, then the `-vf, f"scale={resolution}:-1"` resizes the video to a resolution of a width introduced by the user and the -1 tells ffmpeg to automatically adjust the height to maintain the aspect ratio.
 Then we use the library `subprocess` in order to run the FFMPEG command.
@@ -25,7 +27,9 @@ After creating the changing resolution function, we implemented the endpoint of 
 ### Exercise 2
 In this exercise we are asked to modify the chroma subsampling of the video. Therefore, the FFMPEG command created is the following:
 
+```
 ffmpeg -i input_path -pix_fmt format output_path
+```
 
 As we have seen in the previous task, the `-i` followed by the input_path specifies the input video file, then the `pix_fmt` command is the parameter that FFMPEG use to modify the chroma subsampling. The `format` command is where the user will specify the chroma subsampling format, FFMPEG accepts three types of chroma subsampling format:
 
@@ -41,7 +45,9 @@ As we said before, as the quality format is the lowest, we are not able to creat
 ### Exercise 3
 In this exercise we are asked to read the information and the rellevant data from the video. In order to extract the rellevant data from a video, we can use FFMPEG but adding some modifications when running the command. As we only want to read the information of the video the FFMPEG command will be the next:
 
+```
 ffmpeg -i input_path
+```
 
 But, when we use the subprocess library in order to run the command, we will use the subprocess.PIPE, that allows us to access the stream in Python, instead of print the output directly to the console, therefore, we return the `stderr` output, where we will find all the video data. We prefer doing that because we found a good idea to, instead of printing the metadata information of the video, we will create a `.txt` file as an output where all the rellevant information of the video will be stored.
 
@@ -55,3 +61,5 @@ with open(metadata_file_path, "w") as metadata_file:
 Because, we will write the `medatada` information in the `metadata_file_path` (.txt file created in the output folder).
 
 Once the user execute the endpoint, in the output folder we will obtain the .txt file with the rellevant data. Here we can see a screenshot of its content:
+![image](https://github.com/user-attachments/assets/e8024427-f8dc-47cc-81cf-9948d426fc49)
+
