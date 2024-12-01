@@ -47,8 +47,10 @@ But, when we use the subprocess library in order to run the command, we will use
 
 That is why, when creating the endpoint, use the next lines of code:
 
+```
 with open(metadata_file_path, "w") as metadata_file:
             metadata_file.write(metadata)
+```
 
 Because, we will write the `medatada` information in the `metadata_file_path` (.txt file created in the output folder).
 
