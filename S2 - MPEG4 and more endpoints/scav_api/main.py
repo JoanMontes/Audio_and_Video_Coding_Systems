@@ -65,6 +65,8 @@ def run_length(data: str):
     encoded = run_lenght_encoding(bytes_data)
     return {"encoded_data": encoded}
 
+
+
 ### S2 – MPEG4 and more endpoints
 # Exercise 1:
 @app.post("/Change video resolution/")
