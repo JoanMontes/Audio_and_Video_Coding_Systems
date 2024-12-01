@@ -61,5 +61,8 @@ with open(metadata_file_path, "w") as metadata_file:
 Because, we will write the `medatada` information in the `metadata_file_path` (.txt file created in the output folder).
 
 Once the user execute the endpoint, in the output folder we will obtain the .txt file with the rellevant data. Here we can see a screenshot of its content:
+
 ![image](https://github.com/user-attachments/assets/e8024427-f8dc-47cc-81cf-9948d426fc49)
 
+As we can see, we can detect information features of the input video, as its name, artist, duration, bitrate, and more sofisticated features regarding its stream video and audio. In the video part we found that the video is compressed with `h264` or `MPEG-4` codec, the chroma subsampling format that we identify in the previous task, the resolution, fps, and more.
+In the audio part we can detect the audio channels, in this case, the `aac` is the codification used in the video with a sampling frequency of 48000 Hz.
