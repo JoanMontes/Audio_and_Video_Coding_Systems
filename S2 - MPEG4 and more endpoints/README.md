@@ -92,3 +92,19 @@ In this frame we can clearly see how the movement of the butterfly's wings is es
 
 
 ### Exercise 7
+Finally, we are asked to generate a video with it's YUV histogram. For this task, we found an FFMPEG command that can generate an output video, with the YUV histogram of the input video overlayed in the output video. The FFMPEG command used is the following:
+
+```
+ffmpeg -i input_path -vf split=2[a][b],[b]histogram,format=yuva420p[hh],[a][hh]overlay output_path
+```
+
+The `split=2[a][b],[b]histogram,format=yuva420p[hh],[a][hh]overlay` command is structured in short commands being able to create the output video. The `split=2[a][b]` is the one that splits the input into two streams, the stream [a] (main video) and [b] the one we will use to create the histogram.
+Then, the `[b]histogram` generates a YUV histogram in overlay mode, and the `format=yuva42p` ensures proper pixel format for histogram overlay (it must be the same than the input video).
+Finally, the `[a][hh]overlay` command overlays the histogram onto the original video [a].
+
+Once the command is created, we create the endpoint, where the user will upload the input video and execute the command. After the execution, the endpoint will generate a video with an overlaid YUV histogram, providing a visual representation of luminance and chrominance levels.
+
+Here we can see one frame of the output video where we can observe the YUV histogram with the different representation levels:
+
+![image](https://github.com/user-attachments/assets/b2c7886a-f47a-40e4-925d-cf7b2ba90b40)
+
