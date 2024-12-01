@@ -66,3 +66,29 @@ Once the user execute the endpoint, in the output folder we will obtain the .txt
 
 As we can see, we can detect information features of the input video, as its name, artist, duration, bitrate, and more sofisticated features regarding its stream video and audio. In the video part we found that the video is compressed with `h264` or `MPEG-4` codec, the chroma subsampling format that we identify in the previous task, the resolution, fps, and more.
 In the audio part we can detect the audio channels, in this case, the `aac` is the codification used in the video with a sampling frequency of 48000 Hz.
+
+
+### Exercise 4
+
+### Exercise 5
+
+### Exercise 6
+In this exercise we are asked to create a video with the motion vectors and macroblocks of the input video BBB. For this, we will use the following FFMPEG command:
+
+```
+ffmpeg -flags2 +export_mvs -i input_path -vf codecview=mv=pf+bf+bb output_path
+```
+
+The `-flags2` and `+export_mvs` commands enable the extraction of the motion vector data, while the `-vf codecview=mv=pf+bf+bb` is used to display the motion vectors and the macroblocks types.
+As in the previous tasks, we use the subprocess library in order to run the FFMPEG command.
+
+After the creation of the command, we create the endpoint, where the user will upload an input video and execute the endpoint in order to execute the FFMPEG command and create an output video, in the output folder established, of the motion vectors and macroblocks.
+
+One disadvantage of this execution is the time it takes to create the output video, therefore, to be faster, we use the 20 seconds video created in exercise 4. Here we can see one frame of the output video:
+
+![image](https://github.com/user-attachments/assets/43cf45a6-16a2-4f15-8321-9bf1d67aee42)
+
+In this frame we can clearly see how the movement of the butterfly's wings is established by the motion vectors.
+
+
+### Exercise 7
