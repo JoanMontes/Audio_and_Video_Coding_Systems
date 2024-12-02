@@ -119,7 +119,13 @@ In this exercise we want to create a new endpoint which reads the tracks from an
 ffmpeg -i input_path
 ```
 
-When running the subprocess, we use the subprocess.PIPE to access the stream in python and be able to find the audio file. Therefore, to find the audio file we simply iterate through the python stream finding the lines that include "Audio:" word, which indicate an audio track. When we find a line with the words "Audio:" we isolate the codec and append it to an empty array, in order to create an array with all the codecs in the mp4 container. Finally, we simply return an output file returning the lenght of the previous array, which denotes the number of audio tracks, and we also return the name of the codecs. 
+When running the subprocess, we use the subprocess.PIPE to access the stream in python and be able to find the audio file. Therefore, to find the audio file we simply iterate through the python stream finding the lines that include "Audio:" word, which indicate an audio track. When we find a line with the words "Audio:" we isolate the codec and append it to an empty array, in order to create an array with all the codecs in the mp4 container.
+Finally, we simply return an output file returning the lenght of the previous array, which denotes the number of audio tracks, and we also return the name of the codecs.
+
+Here we can see a screenshot of the output file:
+
+![image](https://github.com/user-attachments/assets/d368bb2f-9eb2-403b-921d-22e0311dc4f3)
+
 
 ### Exercise 6
 In this exercise we are asked to create a video with the motion vectors and macroblocks of the input video BBB. For this, we will use the following FFMPEG command:
