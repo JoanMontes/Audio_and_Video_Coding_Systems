@@ -113,7 +113,13 @@ Once we have all the commands and running steps created we need to create the en
 In the next task we will see how many tracks are created and check if our command works correctly.
 
 ### Exercise 5
+In this exercise we want to create a new endpoint which reads the tracks from an mp4 and it's able to say how many tracks does the mp4 container have. To do this we will use the ffmpeg command that allows us to obtain information of the container, just as we did in exercise 3: 
 
+```
+ffmpeg -i input_path
+```
+
+When running the subprocess, we use the subprocess.PIPE to access the stream in python and be able to find the audio file. Therefore, to find the audio file we simply iterate through the python stream finding the lines that include "Audio:" word, which indicate an audio track. When we find a line with the words "Audio:" we isolate the codec and append it to an empty array, in order to create an array with all the codecs in the mp4 container. Finally, we simply return an output file returning the lenght of the previous array, which denotes the number of audio tracks, and we also return the name of the codecs. 
 
 ### Exercise 6
 In this exercise we are asked to create a video with the motion vectors and macroblocks of the input video BBB. For this, we will use the following FFMPEG command:
@@ -151,3 +157,15 @@ Here we can see one frame of the output video where we can observe the YUV histo
 
 ![image](https://github.com/user-attachments/assets/b2c7886a-f47a-40e4-925d-cf7b2ba90b40)
 
+## How to execute the API?
+To execute the API after downloading it from GitHub, follow these steps:
+
+1. The first step is, obviously, downloading all the resources in the GitHub repository. 
+
+2. Then, we must open a terminal and change the directory to the folder with the name of the practice `(S2 – MPEG4 and more endpoints)`, and once we are inside the folder, execute the following command: `docker-compose up --build`.
+To execute this command, we must ensure that the following libraries are installed: uvicorn, fastapi, opencv and python-multipart. If these are not installed, an error will come up and we simply have to install the library `(pip install <library>)` and execute the previous command again. 
+
+3. Once the project is created, we change the directory to `scav_api/`, where the `main.py` is located, and we execute the following command:
+`python -m uvicorn main:app --reload`. This will launch the application. 
+
+Then to see the API, we go to the browser and we use the Swagger UI Documentation at http://localhost:8000/docs.
