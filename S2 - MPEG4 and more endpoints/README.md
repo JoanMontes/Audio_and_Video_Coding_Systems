@@ -78,19 +78,42 @@ ffmpeg -i input_path -t 20 -c:v copy -c:a copy video_cut_path
 
 In this command, the `-t 20` is in charge of cutting the video in a 20 seconds video. After that, we will use this 20 seconds video to create all the different commands and the output video file.
 
-The following three FFMPEG commands will be the ones that export the audio tracks:
+The following three FFMPEG commands will be the ones that export the audio tracks. First the AAC mono track command:
 
 ```
 ffmpeg -i video_cut_path -vn -ac 1 -c:a aac aac_audio_path
+```
 
+After specify the input file, the `-c:a aac` command encodes the audio in AAC format, and then the `-ac 1` converts the audio to a mono by using a single channel. Finally the output is stored in the `aac_audio_path`.
+Now, the MP3 stereo track:
+
+```
 ffmpeg -i video_cut_path -vn -ac 2 -b:a 128k -c:a mp3 mp3_audio_path
+```
 
+As in the previous command, after specify the input file, the `-c:a libmp3lame` uses the LAME encoder to create an `MP3` file, and then the `ac 2` converts the audio to stereo, with 2 channels. Finally, the `-b:a 128k` sets a lower bitrate of 128kbps.
+Finally, the AC3 codec track:
+
+```
 ffmpeg -i video_cut_path -vn -c:a ac3 ac3_audio_path
 ```
 
+Here, the `-c:a ac3` encodes the audio in the AC3 (Dolby Digital) codec, and then outputs the encoded audio into the `ac3_audio_path`.
 
+Once the requirements are reached, the next step was to package everything into a single `MP4` file. For this process, we will use the `-map` option in FFMPEG, that ensures each desired stream is added correctly to the final container.
+The command we use for this part is the next:
+
+```
+ffmpeg -i video_cut_path -i aac_audio_path -i mp3_audio_path -i ac3_audio_path -map 0:v -map 1:a -map 2:a -map 3:a -c:v copy -c:a copy output_path
+```
+
+After specify all the input files, `video_cut_path`, `aac_audio_path`, `mp3_audio_path` and `ac3_audio_path`, we use the `-map` command to map all toghether. First, the `-map 0:v:0` that maps the video stream for the first input (the 20 seconds video). Then, `-map 1:a:0` maps the first audio track (AAC mono), the `-map 2:a:0` maps the second audio tracks (MP3 stereo) and `-map 3:a:0` maps the third audio track (AC3 codec). After that, the `-c:v copy` and `-c:a copy` copy the video and audio streams without re-encoding. Finally, all is saved in the `output_path`, where a `.mp4` will be created.
+
+Once we have all the commands and running steps created we need to create the endpoint. As in the preovious endpoints, the user will upload the input BBB video, and after execute the endpoint, the output video is stored in the `output_path` stablished, the video, will be a 20 seconds `.mp4` video with the three audio tracks created.
+In the next task we will see how many tracks are created and check if our command works correctly.
 
 ### Exercise 5
+
 
 ### Exercise 6
 In this exercise we are asked to create a video with the motion vectors and macroblocks of the input video BBB. For this, we will use the following FFMPEG command:
