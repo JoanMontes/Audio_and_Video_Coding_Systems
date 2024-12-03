@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException, UploadFile, File
-from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, run_lenght_encoding, serpentine, video_resolution, chroma_subsampling, extract_rellevant_data, extract_bbb, get_audio_tracks, get_macroblocks_motionvectors, get_yuv_histogram
+from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, run_lenght_encoding, serpentine, video_resolution, chroma_subsampling, extract_rellevant_data, extract_bbb, get_audio_tracks, get_macroblocks_motionvectors, get_yuv_histogram, video_conversor, encoding_ladder
 import numpy as np
 import shutil
 import os
@@ -159,4 +159,25 @@ def yuv_histogram_video(input_file: UploadFile = File(...)):
 
 
 ### P2 - TRANSCODING AND FINAL WORK
+# Exercise 1:
+@app.post("/Compress video with VP8, VP9, H265 and AV1/")
+def compressed_videos(input_file: UploadFile = File(...)):
+    input_path = f"temp/{input_file.filename}"
+    save_uploaded_file(input_file, input_path)
+    try:
+        video_conversor(input_path)
+        
+    finally:
+        os.remove(input_path)
 
+# Exercise 2:
+@app.post("/Encoding Ladder/")
+def encoding_ladder_endpoint(input_file: UploadFile = File(...), ladder: int=0):
+    input_path = f"temp/{input_file.filename}"
+    output_path = f"temp/encoding_ladder.mp4"
+    save_uploaded_file(input_file, input_path)
+    try:
+        encoding_ladder(input_path, output_path, ladder)
+        
+    finally:
+        os.remove(input_path)

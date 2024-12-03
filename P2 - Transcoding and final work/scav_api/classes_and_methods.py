@@ -205,7 +205,7 @@ def extract_bbb(input_path, output_path):
     mp3_audio_path = "temp/BBBContainer/bbb_audio_mp3.mp3"
     ac3_audio_path = "temp/BBBContainer/bbb_audio_ac3.ac3"
     
-    video_cut = ["ffmpeg", "-i", input_path, "-t", "20", "-c:v", "copy", "-c:a", "copy", video_cut_path]
+    video_cut = ["ffmpeg", "-i", input_path, "-t", "3", "-c:v", "copy", "-c:a", "copy", video_cut_path]
     subprocess.run(video_cut)
 
     aac_mono_path =  ["ffmpeg", "-i", video_cut_path, "-vn", "-ac", "1", "-c:a", "aac", aac_audio_path]
@@ -257,6 +257,7 @@ def get_yuv_histogram(input_path, output_path):
 
 ### P2 - TRANSCODING AND FINAL WORK
 
+# EXERCISE 1:
 def vp8_conversor(input_path, output_path):
     ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libvpx", "-b:v", "1M", "-c:a", "libvorbis", output_path]
     subprocess.run(ffmpeg_command)
@@ -270,5 +271,33 @@ def h265_conversor(input_path, output_path):
     subprocess.run(ffmpeg_command)
     
 def av1_conversor(input_path, output_path):
-    ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libaom-av1", "-b:v", "2M", "-pass", "-2", "-c:a", "libopus", output_path]
+    ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libaom-av1","-crf", "30", output_path]
     subprocess.run(ffmpeg_command)
+
+def video_conversor(input_path):
+    vp8_path = "temp/video_compressed_vp8.webm"
+    vp9_path = "temp/video_compressed_vp9.webm"
+    h265_path = "temp/video_compressed_h265.mp4"
+    av1_path = "temp/video_compressed_av1.mp4"
+    
+    vp8_conversor(input_path, vp8_path)
+    vp9_conversor(input_path, vp9_path)
+    h265_conversor(input_path, h265_path)
+    av1_conversor(input_path, av1_path)
+
+
+# EXERCISE 2:
+def encoding_ladder(input_path, output_path, ladder):
+    resolution_ladder=[1920,1920,1280,1280,960,768,768,640,416]
+    bitrate_ladder=["7800k","6000k","4500k","3000k","2000k","1100k","730k","365k","145k"]
+    #change resolution
+    video_resolution_path = "temp/resolution.mp4"
+    video_resolution(input_path, video_resolution_path, resolution_ladder[ladder])
+    #change bitrate
+    video_bitrate_path = "temp/bitrate.mp4"
+    ffmpeg_command_1 = ["ffmpeg", "-i", video_resolution_path, "-b:v", bitrate_ladder[ladder], video_bitrate_path]
+    subprocess.run(ffmpeg_command_1)
+
+    if ladder > 4:
+        ffmpeg_command_2= ["ffmpeg", "-i", video_bitrate_path, "-filter:v", "fps=30",output_path]
+        subprocess.run(ffmpeg_command_2)
