@@ -253,3 +253,22 @@ def get_macroblocks_motionvectors(input_path, output_path):
 def get_yuv_histogram(input_path, output_path):
     ffmpeg_command = ["ffmpeg","-i", input_path,"-vf", "split=2[a][b],[b]histogram,format=yuva420p[hh],[a][hh]overlay",output_path]
     subprocess.run(ffmpeg_command)
+    
+
+### P2 - TRANSCODING AND FINAL WORK
+
+def vp8_conversor(input_path, output_path):
+    ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libvpx", "-b:v", "1M", "-c:a", "libvorbis", output_path]
+    subprocess.run(ffmpeg_command)
+    
+def vp9_conversor(input_path, output_path):
+    ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libvpx-vp9", "-b:v", "2M", "-c:a", "libopus", output_path]
+    subprocess.run(ffmpeg_command)
+
+def h265_conversor(input_path, output_path):
+    ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libx265", "-preset", "medium", "-b:v", "1M", "-c:a", "aac", output_path]
+    subprocess.run(ffmpeg_command)
+    
+def av1_conversor(input_path, output_path):
+    ffmpeg_command = ["ffmpeg", "-i", input_path, "-c:v", "libaom-av1", "-b:v", "2M", "-pass", "-2", "-c:a", "libopus", output_path]
+    subprocess.run(ffmpeg_command)

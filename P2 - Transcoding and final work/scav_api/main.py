@@ -155,3 +155,8 @@ def yuv_histogram_video(input_file: UploadFile = File(...)):
         
     finally:
         os.remove(input_path)
+        
+
+
+### P2 - TRANSCODING AND FINAL WORK
+
