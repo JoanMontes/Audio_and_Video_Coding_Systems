@@ -3,7 +3,6 @@ from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, ru
 import numpy as np
 import shutil
 import os
-import subprocess
 
 app = FastAPI()
 

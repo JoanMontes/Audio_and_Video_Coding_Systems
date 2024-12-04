@@ -301,3 +301,6 @@ def encoding_ladder(input_path, output_path, ladder):
     if ladder > 4:
         ffmpeg_command_2= ["ffmpeg", "-i", video_bitrate_path, "-filter:v", "fps=30",output_path]
         subprocess.run(ffmpeg_command_2)
+    else:
+        ffmpeg_command_2= ["ffmpeg", "-i", video_bitrate_path, output_path]
+        subprocess.run(ffmpeg_command_2)
