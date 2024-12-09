@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from classes_and_methods import RGB, YCbCr, DCT, DWT, resize_image, bw_image, run_lenght_encoding, serpentine, video_resolution, chroma_subsampling, extract_rellevant_data, extract_bbb, get_audio_tracks, get_macroblocks_motionvectors, get_yuv_histogram, video_conversor, encoding_ladder
 import numpy as np
 import shutil
@@ -59,7 +59,7 @@ def bw_convert(input_file: UploadFile = File(...)):
 
 # Exercise 6: Run-length encoding
 @app.post("/exercise6/rle/")
-def run_length(data: str):
+def run_length(data: str = Form(...)):
     bytes_data = bytes([int(i) for i in data.split(",")])
     encoded = run_lenght_encoding(bytes_data)
     return {"encoded_data": encoded}
@@ -76,7 +76,8 @@ def resolution(input_file: UploadFile = File(...), resolution: int = 100):
     save_uploaded_file(input_file, input_path)
     try:
         video_resolution(input_path, output_path, resolution)
-        
+        return {"message": "Video rescaled successfully", "output_path": output_path}
+    
     finally:
         os.remove(input_path)
 
@@ -89,7 +90,8 @@ def chroma_sub(input_file: UploadFile = File(...), format: str = "yuv444p"):
     save_uploaded_file(input_file, input_path)
     try:
         chroma_subsampling(input_path, output_path, format)
-        
+        return {"message": "Video subsampled successfully", "output_path": output_path}
+    
     finally:
         os.remove(input_path)
 
@@ -103,7 +105,8 @@ def rellevant_data(input_file: UploadFile = File(...)):
         metadata_file_path = f"temp/{os.path.splitext(input_file.filename)[0]}_metadata.txt"
         with open(metadata_file_path, "w") as metadata_file:
             metadata_file.write(metadata)
-    
+        return {"message": "Metadata extracted successfully"}
+        
     finally:
         os.remove(input_path)
 
@@ -115,7 +118,7 @@ def bbb_container(input_file: UploadFile = File(...)):
     save_uploaded_file(input_file, input_path)
     try:
         extract_bbb(input_path, output_path)
-        
+        return {"message": "MP4 Container created successfully", "output_path": output_path}
     finally:
         os.remove(input_path)       
 
@@ -126,8 +129,8 @@ def audio_tracks(input_file: UploadFile = File(...)):
     output_path = f"temp/{input_file.filename}_audio_tracks.txt"
     save_uploaded_file(input_file, input_path)
     try:
-        data = get_audio_tracks(input_path, output_path)
-        
+        get_audio_tracks(input_path, output_path)
+        return {"message": "Tracks extracted successfully", "output_path": output_path}
     finally:
         os.remove(input_path)
 
@@ -139,7 +142,7 @@ def macroblocks_motionvectors_video(input_file: UploadFile = File(...)):
     save_uploaded_file(input_file, input_path)
     try:
         get_macroblocks_motionvectors(input_path, output_path)
-        
+        return {"message": "Macroblocks and motionvectors extracted successfully", "output_path": output_path}
     finally:
         os.remove(input_path)
         
@@ -151,7 +154,7 @@ def yuv_histogram_video(input_file: UploadFile = File(...)):
     save_uploaded_file(input_file, input_path)
     try:
         get_yuv_histogram(input_path, output_path)
-        
+        return {"message": "YUV Histogram obtained successfully", "output_path": output_path}
     finally:
         os.remove(input_path)
         
@@ -165,7 +168,7 @@ def compressed_videos(input_file: UploadFile = File(...)):
     save_uploaded_file(input_file, input_path)
     try:
         video_conversor(input_path)
-        
+        return {"message": "Video compressed successfully"}
     finally:
         os.remove(input_path)
 
@@ -177,6 +180,6 @@ def encoding_ladder_endpoint(input_file: UploadFile = File(...), ladder: int=0):
     save_uploaded_file(input_file, input_path)
     try:
         encoding_ladder(input_path, output_path, ladder)
-        
+        return {"message": "Encoding Ladder obtained successfully", "output_path": output_path}
     finally:
         os.remove(input_path)

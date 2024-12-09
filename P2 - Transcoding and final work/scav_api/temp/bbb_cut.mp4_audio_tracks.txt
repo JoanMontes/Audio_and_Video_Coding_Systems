@@ -1,0 +1,8 @@
+{
+    "total_audio_tracks": 1,
+    "audio_tracks": [
+        {
+            "codec": "aac (LC) (mp4a / 0x6134706D)"
+        }
+    ]
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encoding Ladder</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Apply Encoding Ladder</h1>
+        <form action="/exercise15/encoding-ladder/" method="post" enctype="multipart/form-data" class="mt-4">
+            <div class="form-group">
+                <label for="input_file">Upload Video:</label>
+                <input type="file" name="input_file" id="input_file" class="form-control" accept="video/*" required>
+            </div>
+            <div class="form-group mt-3">
+                <label for="ladder">Ladder Level:</label>
+                <input type="number" name="ladder" id="ladder" class="form-control" placeholder="Enter ladder level (e.g., 0, 1, 2, 3, 4, 5 or 6)" required>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Apply Encoding Ladder</button>
+        </form>
+    </div>
+</body>
+</html>
