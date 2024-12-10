@@ -63,7 +63,31 @@ As well as the previous exercise, we implement this exercise in the `classes_and
 
 ## GUI
 
-## AI
+En esta parte de la practica se nos pide desenvolupar la GUI de nuestra API. Como ya sabemos, esta se divide en una parte de backend (infraestructura del programa) y una parte de frontend (lo que ven los usuarios). Para el desarrollo del backend, utilizaremos `Flask`, un framework escrito en Python que permite crear aplicaciones web. Y para el frontend utilizaremos `HTML` y `CSS`.
+
+### app_requests.py creation
+
+Para crear la aplicación es necesario crear una interfaz que sea capaz de interactuar con el backend implementado en el archivo `main.py`, es decir, que como se vaya interactuando con la aplicación, este envie requests al backend creado con FastAPI para asegurar su correcto funcionamiento. 
+
+La estructura general del archivo empieza con definir la aplicación Flask (`app = Flask(__name__)`), seguidamente se establece una carpeta para subir los archivos (`UPLOAD_FOLDER`) y seguidamente se configura la URL base del backend FastAPI, la cual esta configurada con la IP `http://127.0.0.1:8000`. Esto indica que el servidor FastAPI está situado en el puerto 8000 de nuestra máquina local.
+
+En este archivo se definen las solicitudes HTTP que Flask envia al backend de FastAPI utilizando la biblioteca `requests`. Dependiendo de la funcionalidad de cada endpoint, los datos se envían como parametros, datos de formulario o files. En el caso de estas ultimas, Flask primero guarda los archivos subidos por el usuario en el directorio `UPLOAD_FOLDER`. Para posteriormente leer el archivo i lo envia al backend. 
+
+En `main.py` (backend de FastAPI), se procesa la solicitud en el endpoint correspondiente y se realiza la tarea especificada, devolviendo un resultado en formato JSON ya que Flask procesa este formato facilmente. 
+
+Cuando Flaks recibe la respuesta del backend FastAPI, Flask utiliza los datos en formato JSON para devolver el resultado final. Finalmente, Flask renderiza el HTML file especificado para que el usuario pueda observar el formato especificado. 
+
+Las principales funcionalidades de la GUI són las mismas que en las pràcticas anteriores però añadiendo los dos nuevos endpoints creados en esta.
+Estas funcionalidades se dividen en, conversión de colores, procesamiento de imagenes i procesamiento de videos.
+Cabe destacar, que cada funcionalidad de nuestra aplicación hace referencia a cada endpoint creado en nuestros previos proyectos.
+
+Cabe especificar que el servidor Flask se ejecuta en el puerto 5000, por tanto, para acceder a el tendremos que entrar a la IP `http://127.0.0.1:5000`.
+
+### HTML and CSS files creation
+
+
+
+## AI Implementation
 The last step of this lab is to use an AI tool in order to improve the code. We mainly used AI for two purposes: To adapt the HTML template to the desired design we wanted for the GUI of our API, and in order to imporve the app_requests.py, as we were not used to working with Flask and our code needed improvement. 
 
 The main changes in the HTML files was in the index.html, which creates the distribution of the first page of the GUI, where all the endpoints appear and we can choose which one we want to execute. For this file AI was useful to explain which part of the code corresponded to each part of the output and help us create the index part of the GUI to our taste. 
