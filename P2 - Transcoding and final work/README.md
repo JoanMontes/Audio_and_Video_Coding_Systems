@@ -37,7 +37,7 @@ This code is implemented in the `classes_and_methods.py` file, which is later us
 ### Exercise 2
 In this exercise we are asked to create an endpoint that is able to do an encoding ladder. In order to create this endpoint we followed Apple's encoding ladder from the HLS Authoring Specification. The different ladders are given in the following picture:  
 
-![image](https://github.com/user-attachments/assets/135624d1-41ed-474d-9496-1de12cf6f21f)
+![image](https://github.com/user-attachments/assets/b7bf1f20-3949-4e06-90dd-d41ae0e37c04)
 
 
 To create this endpoint, we first defined the different resolutions and the different bitrates given by the Apple's ladder in an array. Then, we simply used the video_resolution function created in the previous labs to change the video resolution given the ladder we are in. The output file is then used in the following ffmpeg command that changes the bitrate to the one corresponding to the ladder: 
@@ -83,7 +83,18 @@ Once the requests file is created in Flask, the next step is to integrate the fr
 
 The GUI of the application is organized into a main menu, from which users can access the various functionalities available in the system. This menu presents a set of 14 main features, each corresponding to a specific API endpoint. Users can click on the images representing each feature and be redirected to the corresponding page where they can interact with the system. Each feature is clearly distinguished through images, and descriptive titles.
 
+![image](https://github.com/user-attachments/assets/95aa3266-9915-44b1-b161-3ec83fd29a98)
+
 The main menu is the entry point to all the features of the application. This menu is presented containing a series of images, each linked to a specific feature. When the user clicks on one of these images, they are redirected to the corresponding page where they can enter the necessary data.
+
+Here we can see the data required from the conversion color functionality,
+
+![image](https://github.com/user-attachments/assets/1e8d6f0c-6d1e-41c0-b41d-87002d313bfe)
+
+And the one requiring to upload a video file, 
+
+![image](https://github.com/user-attachments/assets/ea5cc2c8-b9e4-477b-8cc0-ecdc325cf25e)
+
 
 The general structure of the frontend of our API is organized in two folders. The `templates` directory, where all the HTML files for the application are stored, organized os that each feature has its own page.
 
