@@ -1,13 +1,10 @@
 # P2 - TRANSCODING AND FINAL WORK REPORT
 
 ## Introduction
-
 The aim of this project is to extend the API we created using FastAPI we created in the previous labs with two more endpoints, and also creating a Graphical User Interface (GUI) to make the interaction with the API more user friendly. To create the user interface we used html together with Flask so that the GUI is visually appealing and can interact with the FastAPI app we created during the course. 
 
 ## Endpoints
-
 ### Exercise 1: 
-
 In this exercise we are asked to create a new endpoint in the API that can convert any input video into the following video codecs: VP8, VP8, h265 & AV1. To do so, we used the corresponding ffmpeg commands that convert a video input to the desired video codec. To convert the input video into VP8, used the ffmpeg command: 
 
 ```
@@ -38,7 +35,6 @@ Then, we create a video file in order to store each of the videos encoded with t
 This code is implemented in the `classes_and_methods.py` file, which is later used in the `main.py` to create the endpoint, and as we will explain later, the endpoint will be used in the `app_requests.py` file in order to be able to execute the endpoint in the GUI. 
 
 ### Exercise 2
-
 In this exercise we are asked to create an endpoint that is able to do an encoding ladder. In order to create this endpoint we followed Apple's encoding ladder from the HLS Authoring Specification. The different ladders are given in the following picture:  
 
 ![image](https://github.com/user-attachments/assets/135624d1-41ed-474d-9496-1de12cf6f21f)
@@ -61,30 +57,39 @@ If we are not above the 4th ladder, we simply print the information with the out
 
 As well as the previous exercise, we implement this exercise in the `classes_and_methods.py` file and we use it in the `main.py` to create the endpoint and then in the `app_requests.py` to be able to use the endpoint in the GUI.
 
-## GUI
 
-En esta parte de la practica se nos pide desenvolupar la GUI de nuestra API. Como ya sabemos, esta se divide en una parte de backend (infraestructura del programa) y una parte de frontend (lo que ven los usuarios). Para el desarrollo del backend, utilizaremos `Flask`, un framework escrito en Python que permite crear aplicaciones web. Y para el frontend utilizaremos `HTML` y `CSS`.
+## GUI
+In this part of the practice, we are tasked with developing the GUI for our API. As we know, it is divided into a backend (the program's infrastructure) and a frontend (what users see). For the backend development, we will use `Flask`, a framework written in Python that allows for creating web applications. For the frontend, we will use `HTML` and `CSS`.
 
 ### app_requests.py creation
+To create the application, it is necessary to build an interface capable of interacting with the backend implemented in the `main.py` file. This means that as the application is used, it sends requests to the backend created with `FastAPI` to ensure proper functionality.
 
-Para crear la aplicación es necesario crear una interfaz que sea capaz de interactuar con el backend implementado en el archivo `main.py`, es decir, que como se vaya interactuando con la aplicación, este envie requests al backend creado con FastAPI para asegurar su correcto funcionamiento. 
+The general structure of the file starts by defining the Flask application (`app = Flask(__name__)`), followed by setting up a folder to upload files (`UPLOAD_FOLDER`) and configuring the base URL for the FastAPI backend, which is set to the IP `http://127.0.0.1:8000`. This indicates that the FastAPI server is located on port 8000 of our local machine.
 
-La estructura general del archivo empieza con definir la aplicación Flask (`app = Flask(__name__)`), seguidamente se establece una carpeta para subir los archivos (`UPLOAD_FOLDER`) y seguidamente se configura la URL base del backend FastAPI, la cual esta configurada con la IP `http://127.0.0.1:8000`. Esto indica que el servidor FastAPI está situado en el puerto 8000 de nuestra máquina local.
+In this file, the HTTP requests that Flask sends to the FastAPI backend are defined using the `requests` library. Depending on the functionality of each endpoint, data is sent as parameters, form data, or files. In the case of the latter, Flask first saves the files uploaded by the user in the `UPLOAD_FOLDER` directory. It then reads the file and sends it to the backend.
 
-En este archivo se definen las solicitudes HTTP que Flask envia al backend de FastAPI utilizando la biblioteca `requests`. Dependiendo de la funcionalidad de cada endpoint, los datos se envían como parametros, datos de formulario o files. En el caso de estas ultimas, Flask primero guarda los archivos subidos por el usuario en el directorio `UPLOAD_FOLDER`. Para posteriormente leer el archivo i lo envia al backend. 
+In `main.py` (FastAPI backend), the request is processed at the corresponding endpoint, performing the specified task and returning a result in `JSON` format, as Flask can easily process this format.
 
-En `main.py` (backend de FastAPI), se procesa la solicitud en el endpoint correspondiente y se realiza la tarea especificada, devolviendo un resultado en formato JSON ya que Flask procesa este formato facilmente. 
+When Flask receives the response from the FastAPI backend, it uses the `JSON` data to return the final result. Finally, Flask renders the specified `HTML` file so the user can view the specified format.
 
-Cuando Flaks recibe la respuesta del backend FastAPI, Flask utiliza los datos en formato JSON para devolver el resultado final. Finalmente, Flask renderiza el HTML file especificado para que el usuario pueda observar el formato especificado. 
+The main functionalities of the GUI are the same as in previous practices, but with the addition of two new endpoints created in this one.
+These functionalities are divided into color conversion, image processing, and video processing.
+It is worth mentioning that each functionality of our application corresponds to an endpoint created in our previous projects.
 
-Las principales funcionalidades de la GUI són las mismas que en las pràcticas anteriores però añadiendo los dos nuevos endpoints creados en esta.
-Estas funcionalidades se dividen en, conversión de colores, procesamiento de imagenes i procesamiento de videos.
-Cabe destacar, que cada funcionalidad de nuestra aplicación hace referencia a cada endpoint creado en nuestros previos proyectos.
-
-Cabe especificar que el servidor Flask se ejecuta en el puerto 5000, por tanto, para acceder a el tendremos que entrar a la IP `http://127.0.0.1:5000`.
+It is important to specify that the Flask server runs on port 5000. Therefore, to access it, we must navigate to the IP `http://127.0.0.1:5000`.
 
 ### HTML and CSS files creation
+Once the requests file is created in Flask, the next step is to integrate the frontend of the application so that users can interact with the features provided by the backend. To do this, we will use an HTML and CSS template extracted from the internet, which will be adapted to the specific needs of our application. This template includes both text formatting and animations required for the visual design of the application.
 
+The GUI of the application is organized into a main menu, from which users can access the various functionalities available in the system. This menu presents a set of 14 main features, each corresponding to a specific API endpoint. Users can click on the images representing each feature and be redirected to the corresponding page where they can interact with the system. Each feature is clearly distinguished through images, and descriptive titles.
+
+The main menu is the entry point to all the features of the application. This menu is presented containing a series of images, each linked to a specific feature. When the user clicks on one of these images, they are redirected to the corresponding page where they can enter the necessary data.
+
+The general structure of the frontend of our API is organized in two folders. The `templates` directory, where all the HTML files for the application are stored, organized os that each feature has its own page.
+
+And the `static` directory, where the CSS file used for design and the images used in the menu are stored.
+
+Navigation in the application is intuitive thanks to the main menu, which provides direct links to the features. Each section has a clear layout with a specific form that allows the user to enter data or upload files easily.
 
 
 ## AI Implementation
@@ -106,7 +111,9 @@ To execute this command, we must ensure that the following libraries are install
 3. Once the project is created, we change the directory to `scav_api/`, where the `main.py` is located, and we execute the following command:
 `python -m uvicorn main:app --reload`. This will launch the application. 
 
-4. Then we have to open another terminal and change the directory to `scav_api/` and execute the comand 
+4. We should check Flask is installed in our computer. If not, use `pip install flask`. 
+
+5. Then we have to open another terminal and change the directory to `scav_api/` and execute the comand 
 `python app_requests.py`
 
 Finally, to see the GUI and use it to execute the endpoints, we go to the browser and go to http://localhost:5000. 
