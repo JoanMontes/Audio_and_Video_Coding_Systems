@@ -6,12 +6,10 @@ app = Flask(__name__)
 
 FASTAPI_URL = "http://127.0.0.1:8000"  # FastAPI backend URL
 
-# Upload directory
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# Home page
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -25,14 +23,11 @@ def rgb_to_ycbcr():
         g = float(request.form["g"])
         b = float(request.form["b"])
 
-        # Enviar POST request a FastAPI
         response = requests.post(f"{FASTAPI_URL}/exercise2/rgb-to-ycbcr/", params={"r": r, "g": g, "b": b})
 
-        # Si la respuesta es exitosa
         if response.status_code == 200:
             result = response.json()
             
-            # Formatear el resultado
             formatted_result = {
                 "Luminance (Y)": f"{result['Y']:.2f}",
                 "Blue-Difference Chroma (Cb)": f"{result['Cb']:.2f}",
@@ -52,14 +47,11 @@ def ycbcr_to_rgb():
         cb = float(request.form["cb"])
         cr = float(request.form["cr"])
 
-        # Enviar POST request a FastAPI
         response = requests.post(f"{FASTAPI_URL}/exercise2/ycbcr-to-rgb/", params={"y": y, "cb": cb, "cr": cr})
 
-        # Si la respuesta es exitosa
         if response.status_code == 200:
             result = response.json()
             
-            # Formatear el resultado
             formatted_result = {
                 "Red (R)": f"{result['R']:.2f}",
                 "Green (G)": f"{result['G']:.2f}",
@@ -75,37 +67,30 @@ def ycbcr_to_rgb():
 @app.route("/exercise3/resize/", methods=["GET", "POST"])
 def resize_image():
     if request.method == "POST":
-        # Get form data
         width = int(request.form["width"])
         quality = int(request.form["quality"])
 
-        # Get uploaded file
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the file locally
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             data = {"width": width, "quality": quality}
             response = requests.post(f"{FASTAPI_URL}/exercise3/resize/", files=files, data=data)
 
-        # Handle response
         if response.status_code == 200:
             result = response.json()
             resized_path = result.get("output_path")
 
-            # Return success response
             return jsonify({"message": "Image resized successfully", "resized_path": resized_path})
         else:
             return jsonify({"error": f"Failed to resize image: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("resize.html")
 
 
@@ -113,57 +98,44 @@ def resize_image():
 @app.route("/exercise5/bw/", methods=["GET", "POST"])
 def bw_convert():
     if request.method == "POST":
-        # Check if a file is uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to a temporary directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(f"{FASTAPI_URL}/exercise5/bw/", files=files)
 
-        # Handle response from FastAPI
         if response.status_code == 200:
             result = response.json()
             bw_path = result.get("output_path")
 
-            # Return success response with the path to the BW image
             return jsonify({"message": "Image converted to BW successfully", "bw_path": bw_path})
         else:
             return jsonify({"error": f"Failed to convert image: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("bw.html")
 
 
 # Exercise 6: Run-length encoding
-# Exercise 6: Run-length encoding
 @app.route("/exercise6/rle/", methods=["GET", "POST"])
 def run_length_view():
     if request.method == "POST":
-        # Get the data from the form input (comma-separated values)
         data = str(request.form["data"])
-
-        # Send POST request to FastAPI with the `data` as form data
         response = requests.post(f"{FASTAPI_URL}/exercise6/rle/", data={"data": data})
 
-        # If the response is successful, return the encoded result
         if response.status_code == 200:
             result = response.json()
             encoded_data = result.get("encoded_data")
 
-            # Return the result in a formatted way
             return jsonify({"message": "Run-length encoding successful", "encoded_data": encoded_data})
         else:
             return jsonify({"error": f"Failed to encode data: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("run_length.html")
 
 
@@ -171,36 +143,29 @@ def run_length_view():
 @app.route("/exercise7/video-resolution/", methods=["GET", "POST"])
 def change_video_resolution():
     if request.method == "POST":
-        # Get the desired resolution from the form input
         resolution = int(request.form["resolution"])
 
-        # Check if a file is uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to a temporary directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             data = {"resolution": resolution}
             response = requests.post(f"{FASTAPI_URL}/Change video resolution/", files=files, data=data)
 
-        # Handle response from FastAPI
         if response.status_code == 200:
             result = response.json()
             rescaled_video_path = result.get("output_path")
 
-            # Return success response with the path to the rescaled video
             return jsonify({"message": "Video resolution changed successfully", "rescaled_video_path": rescaled_video_path})
         else:
             return jsonify({"error": f"Failed to change video resolution: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("video_resolution.html")
 
 
@@ -208,36 +173,29 @@ def change_video_resolution():
 @app.route("/exercise8/chroma-subsampling/", methods=["GET", "POST"])
 def chroma_subsampling():
     if request.method == "POST":
-        # Get the chroma subsampling format from the form
         format = request.form["format"]
 
-        # Check if a video file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             data = {"format": format}
             response = requests.post(f"{FASTAPI_URL}/Change video chroma subsampling/", files=files, data=data)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             subsampled_path = result.get("output_path")
 
-            # Return success message with the path to the subsampled video
             return jsonify({"message": "Chroma subsampling applied successfully", "subsampled_path": subsampled_path})
         else:
             return jsonify({"error": f"Failed to apply chroma subsampling: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("chroma_subsampling.html")
 
 
@@ -246,32 +204,26 @@ def chroma_subsampling():
 @app.route("/exercise9/extract-rellevant-data/", methods=["GET", "POST"])
 def extract_rellevant_data():
     if request.method == "POST":
-        # Check if a video file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(f"{FASTAPI_URL}/Extract video information/", files=files)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             metadata_file_path = result.get("metadata_file_path")
 
-            # Return success message with the path to the metadata file
             return jsonify({"message": "Metadata extracted successfully", "metadata_file_path": metadata_file_path})
         else:
             return jsonify({"error": f"Failed to extract metadata: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("extract_rellevant_data.html")
 
 
@@ -279,32 +231,26 @@ def extract_rellevant_data():
 @app.route("/exercise10/bbb-container/", methods=["GET", "POST"])
 def bbb_container():
     if request.method == "POST":
-        # Check if a video file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(f"{FASTAPI_URL}/BBB Container/", files=files)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             output_file_path = result.get("output_path")
 
-            # Return success message with the path to the output file
             return jsonify({"message": "BBB container extracted successfully", "output_file_path": output_file_path})
         else:
             return jsonify({"error": f"Failed to extract BBB container: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("extract_bbb.html")
 
 
@@ -312,32 +258,26 @@ def bbb_container():
 @app.route("/exercise11/extract-audio-tracks/", methods=["GET", "POST"])
 def audio_tracks():
     if request.method == "POST":
-        # Check if a file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(f"{FASTAPI_URL}/Extract audio tracks/", files=files)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             output_file_path = result.get("output_path")
 
-            # Return success message with the path to the audio tracks file
             return jsonify({"message": "Audio tracks extracted successfully", "output_file_path": output_file_path})
         else:
             return jsonify({"error": f"Failed to extract audio tracks: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("get_audio_tracks.html")
 
 
@@ -345,35 +285,27 @@ def audio_tracks():
 @app.route("/exercise12/macroblocks-motionvectors/", methods=["GET", "POST"])
 def macroblocks_motionvectors():
     if request.method == "POST":
-        # Check if a file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(
-                f"{FASTAPI_URL}/Generate video with macroblocks and motion vectors/",
-                files=files,
-            )
+                f"{FASTAPI_URL}/Generate video with macroblocks and motion vectors/",files=files)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             output_video_path = result.get("output_path")
 
-            # Return success message with the path to the generated video
             return jsonify({"message": "Video generated successfully", "output_video_path": output_video_path})
         else:
             return jsonify({"error": f"Failed to generate video: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("get_macroblocks_motionvectors.html")
 
 
@@ -381,35 +313,27 @@ def macroblocks_motionvectors():
 @app.route("/exercise13/yuv-histogram/", methods=["GET", "POST"])
 def yuv_histogram():
     if request.method == "POST":
-        # Check if a file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(
-                f"{FASTAPI_URL}/Generate video with YUV histogram overlayed/",
-                files=files,
-            )
+                f"{FASTAPI_URL}/Generate video with YUV histogram overlayed/",files=files,)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             output_video_path = result.get("output_path")
 
-            # Return success message with the path to the generated video
             return jsonify({"message": "Video generated successfully", "output_video_path": output_video_path})
         else:
             return jsonify({"error": f"Failed to generate video: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("get_yuv_histogram.html")
 
 
@@ -417,73 +341,56 @@ def yuv_histogram():
 @app.route("/exercise14/video-conversor/", methods=["GET", "POST"])
 def compress_video():
     if request.method == "POST":
-        # Check if a file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             response = requests.post(
-                f"{FASTAPI_URL}/Compress video with VP8, VP9, H265 and AV1/",
-                files=files,
-            )
+                f"{FASTAPI_URL}/Compress video with VP8, VP9, H265 and AV1/",files=files)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             compressed_videos_info = result.get("compressed_videos", {})
 
-            # Return success message with paths to the compressed videos
             return jsonify({"message": "Video compressed successfully", "compressed_videos": compressed_videos_info})
         else:
             return jsonify({"error": f"Failed to compress video: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("video_conversor.html")
 
 
 @app.route("/exercise15/encoding-ladder/", methods=["GET", "POST"])
 def encoding_ladder():
     if request.method == "POST":
-        # Check if a file was uploaded
         if "input_file" not in request.files:
             return jsonify({"error": "No file uploaded"}), 400
 
         input_file = request.files["input_file"]
         ladder = int(request.form.get("ladder", 0))
 
-        # Save the uploaded file to the upload directory
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], input_file.filename)
         input_file.save(file_path)
 
-        # Send POST request to FastAPI
         with open(file_path, "rb") as file:
             files = {"input_file": file}
             data = {"ladder": ladder}
             response = requests.post(
-                f"{FASTAPI_URL}/Encoding Ladder/",
-                files=files,
-                data=data,
-            )
+                f"{FASTAPI_URL}/Encoding Ladder/",files=files,data=data)
 
-        # Handle the FastAPI response
         if response.status_code == 200:
             result = response.json()
             output_path = result.get("output_path")
 
-            # Return success message with path to the encoded video
             return jsonify({"message": "Encoding ladder applied successfully", "output_path": output_path})
         else:
             return jsonify({"error": f"Failed to apply encoding ladder: {response.status_code}"}), 500
 
-    # Render the HTML form
     return render_template("encoding_ladder.html")
 
 if __name__ == "__main__":
