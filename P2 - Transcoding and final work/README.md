@@ -56,13 +56,19 @@ Finally, we created a condition that if the ladder we are in is higher than 4, w
 ```
 As we can see, we are changing the frame rate to 30 fps. 
 
-If we are not above the 4th ladder, we simple print the information with the output path of the video with the resolution, the bitrate and the frame rate corresponding to the chosen ladder. 
+If we are not above the 4th ladder, we simply print the information with the output path of the video with the resolution, the bitrate and the frame rate corresponding to the chosen ladder. 
 
 As well as the previous exercise, we implement this exercise in the `classes_and_methods.py` file and we use it in the `main.py` to create the endpoint and then in the `app_requests.py` to be able to use the endpoint in the GUI.
 
 ## GUI
 
 ## AI
+The last step of this lab is to use an AI tool in order to improve the code. We mainly used AI for two purposes: To adapt the HTML template to the desired design we wanted for the GUI of our API, and in order to imporve the app_requests.py, as we were not used to working with Flask and our code needed improvement. 
+
+The main changes in the HTML files was in the index.html, which creates the distribution of the first page of the GUI, where all the endpoints appear and we can choose which one we want to execute. For this file AI was useful to explain which part of the code corresponded to each part of the output and help us create the index part of the GUI to our taste. 
+
+Moreover, AI helped us to create a clean code for the app_requests.py file, by giving us a pattern on how to create call the functions of the API and make them interactive and in GUI and showing the result in the GUI itself, making the GUI selfsuficient. 
+
 
 ## How to execute the API?
 To execute the API after downloading it from GitHub, follow these steps:
