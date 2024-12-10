@@ -37,7 +37,7 @@ This code is implemented in the `classes_and_methods.py` file, which is later us
 ### Exercise 2
 In this exercise we are asked to create an endpoint that is able to do an encoding ladder. In order to create this endpoint we followed Apple's encoding ladder from the HLS Authoring Specification. The different ladders are given in the following picture:  
 
-![image](https://github.com/user-attachments/assets/135624d1-41ed-474d-9496-1de12cf6f21f)
+![image](https://github.com/user-attachments/assets/b7bf1f20-3949-4e06-90dd-d41ae0e37c04)
 
 
 To create this endpoint, we first defined the different resolutions and the different bitrates given by the Apple's ladder in an array. Then, we simply used the video_resolution function created in the previous labs to change the video resolution given the ladder we are in. The output file is then used in the following ffmpeg command that changes the bitrate to the one corresponding to the ladder: 
