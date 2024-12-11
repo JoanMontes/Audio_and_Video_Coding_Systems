@@ -1,0 +1,14 @@
+{
+    "total_audio_tracks": 3,
+    "audio_tracks": [
+        {
+            "codec": "aac (LC) (mp4a / 0x6134706D)"
+        },
+        {
+            "codec": "mp3 (mp3float) (mp4a / 0x6134706D)"
+        },
+        {
+            "codec": "ac3 (ac-3 / 0x332D6361)"
+        }
+    ]
+}
